@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useAppStore, useAuthStore } from '@/store/appStore';
 import { osuParser } from '@/services/osu-parser';
+import { Loader2 } from 'lucide-react';
 
 export function LoginForm() {
   const { setStage, setLoadingMessage } = useAppStore();
@@ -12,6 +13,7 @@ export function LoginForm() {
   const [password, setPassword] = useState('');
   const [step, setStep] = useState<'login' | 'password'>('login');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,21 +24,21 @@ export function LoginForm() {
 
     if (!password.trim()) return;
 
-    setStage('scraping');
-    setLoadingMessage('Авторизуемся в системе...');
+    setIsLoading(true);
+    setError('');
 
     try {
       const success = await osuParser.login(login, password);
       if (success) {
         setCredentials(login, password);
-        // Start the scraping process (handled in LoadingScreen)
+        setStage('scraping');
       } else {
-        setStage('login');
         setError('Неверный логин или пароль');
       }
     } catch (err) {
-      setStage('login');
       setError('Ошибка соединения с сервером');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,7 +55,7 @@ export function LoginForm() {
             {step === 'login' ? 'Ваш логин от ЛК ОГУ' : 'Теперь пароль'}
           </h2>
           <p className="text-gray-500">
-            {step === 'login' ? 'Обычно это номер зачетки' : 'Тот же, что вы используете для входа на сайт'}
+            {step === 'login' ? 'Обычно это электронная почта' : 'Тот же, что вы используете для входа на сайт'}
           </p>
         </div>
 
@@ -62,7 +64,7 @@ export function LoginForm() {
             <Input
               autoFocus
               type="text"
-              placeholder="Например, 190504"
+              placeholder="Например, example@mail.com"
               className="text-2xl p-6 bg-transparent border-b-2 border-zinc-800 rounded-none focus-visible:ring-0 focus-visible:border-white transition-colors placeholder:text-zinc-700"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
@@ -85,9 +87,18 @@ export function LoginForm() {
           type="submit" 
           size="lg" 
           className="w-full py-6 text-lg rounded-full"
-          disabled={step === 'login' ? !login : !password}
+          disabled={(step === 'login' ? !login : !password) || isLoading}
         >
-          {step === 'login' ? 'Далее' : 'Войти'}
+          {isLoading ? (
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+            >
+              <Loader2 className="w-6 h-6" />
+            </motion.div>
+          ) : (
+            step === 'login' ? 'Далее' : 'Войти'
+          )}
         </Button>
         
         {step === 'password' && (

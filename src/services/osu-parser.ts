@@ -14,32 +14,14 @@ export class OsuParser {
       throw new Error("No credentials provided");
     }
 
-    const formData = new URLSearchParams();
-    formData.append('login', this.credentials.login);
-    formData.append('psw', this.credentials.pass);
-    formData.append('opsw', '');
-
-    // Merge body if it exists (though we mostly do GETs which become POSTs here)
-    // Actually, the requirement is to send login/pass with EVERY request.
-    // If the original request was GET, we might need to change it to POST or append params?
-    // The prompt says "при каждой запросе будем добавлять параметры login и psw".
-    // Usually this implies POST for everything or appending to query params for GET.
-    // Given the login example was POST, let's assume we should use POST for everything 
-    // OR just rely on the fact that we are sending credentials.
-    
-    // However, standard flow is: Login (POST) -> Session Cookie -> Subsequent Requests (GET with Cookie).
-    // The user wants to avoid cookies and send login/pass every time.
-    // This usually means every request becomes a POST with login/pass.
-    
     const body = new URLSearchParams(options.body as any);
     body.append('login', this.credentials.login);
     body.append('psw', this.credentials.pass);
-    // If there are other params in the URL (like ?page=personal), we might need to move them to body
-    // or keep them in URL. Let's try keeping URL params and sending credentials in body.
+    body.append('opsw', '');
 
     return fetch(url, {
       ...options,
-      method: 'POST', // Force POST
+      method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         ...options.headers,
