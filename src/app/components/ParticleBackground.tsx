@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { motion } from 'motion/react';
 
 interface ParticleBackgroundProps {
@@ -13,45 +14,52 @@ export function ParticleBackground({
   color,
   speed = 3 
 }: ParticleBackgroundProps) {
+  const particles = useMemo(() => {
+    return [...Array(count)].map((_, i) => ({
+      id: i,
+      char: emoji[Math.floor(Math.random() * emoji.length)],
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      driftX: (Math.random() - 0.5) * 100,
+      driftY: (Math.random() - 0.5) * 100,
+      duration: speed + Math.random() * 4,
+      delay: Math.random() * 10,
+      size: 0.8 + Math.random() * 1.2,
+    }));
+  }, [count, emoji.join(','), speed]);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(count)].map((_, i) => {
-        const randomEmoji = emoji[Math.floor(Math.random() * emoji.length)];
-        const startX = Math.random() * 100;
-        const endX = startX + (Math.random() - 0.5) * 50;
-        const startY = Math.random() * 100;
-        
-        return (
-          <motion.div
-            key={i}
-            initial={{
-              x: `${startX}%`,
-              y: `${startY}%`,
-              opacity: 0,
-              scale: 0,
-            }}
-            animate={{
-              y: ['0%', '100%'],
-              opacity: [0, 0.8, 0],
-              scale: [0, 1, 0.5],
-              x: [`${startX}%`, `${endX}%`],
-            }}
-            transition={{
-              duration: speed + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: 'easeInOut',
-            }}
-            className="absolute"
-            style={{
-              fontSize: `${1 + Math.random()}rem`,
-              color: color,
-            }}
-          >
-            {randomEmoji}
-          </motion.div>
-        );
-      })}
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          initial={{
+            opacity: 0,
+            scale: 0,
+          }}
+          animate={{
+            y: [0, p.driftY],
+            x: [0, p.driftX],
+            opacity: [0, 0.7, 0],
+            scale: [0, 1.2, 0.6],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: 'easeInOut',
+          }}
+          className="absolute"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            fontSize: `${p.size}rem`,
+            color: color,
+          }}
+        >
+          {p.char}
+        </motion.div>
+      ))}
     </div>
   );
 }
