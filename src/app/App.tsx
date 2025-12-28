@@ -100,7 +100,7 @@ const allStories: StoryConfig[] = [
     }
   },
   { id: 19, component: Story14Moodle, duration: 8000 },
-  { id: 20, component: Story14_5YourTeam, duration: 10000 },
+  // { id: 20, component: Story14_5YourTeam, duration: 10000 },
   { id: 21, component: Story15Final, duration: 12000 },
 ];
 
