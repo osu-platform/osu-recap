@@ -25,8 +25,8 @@ export class OsuParser {
     // Rate limiting: ensure at least 2 seconds between requests
     const now = Date.now();
     const timeSinceLastRequest = now - this.lastRequestTime;
-    if (timeSinceLastRequest < 2000) {
-      await new Promise(resolve => setTimeout(resolve, 2000 - timeSinceLastRequest));
+    if (timeSinceLastRequest < 3000) {
+      await new Promise(resolve => setTimeout(resolve, 3000 - timeSinceLastRequest));
     }
 
     this.lastRequestTime = Date.now();
