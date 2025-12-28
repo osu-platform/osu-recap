@@ -6,9 +6,14 @@ export class OsuParser {
     ? '/api/osu' 
     : 'https://d5dqok8k42ev7cutajq7.z7jmlavt.apigw.yandexcloud.net/api/osu';
   private credentials: { login: string; pass: string } | null = null;
+  private statusCallback: ((message: string) => void) | null = null;
 
   setCredentials(login: string, pass: string) {
     this.credentials = { login, pass };
+  }
+
+  setStatusCallback(callback: (message: string) => void) {
+    this.statusCallback = callback;
   }
 
   private async fetchWithAuth(url: string, options: RequestInit = {}): Promise<Response> {
@@ -21,7 +26,7 @@ export class OsuParser {
     body.append('psw', this.credentials.pass);
     body.append('opsw', '');
 
-    return fetch(url, {
+    const response = await fetch(url, {
       ...options,
       method: 'POST',
       headers: {
@@ -30,6 +35,22 @@ export class OsuParser {
       },
       body: body,
     });
+
+    // Check for rate limit error
+    const clone = response.clone();
+    const buffer = await clone.arrayBuffer();
+    const decoder = new TextDecoder('windows-1251');
+    const text = decoder.decode(buffer);
+
+    if (text.includes('Вы слишком часто пытаетесь входить в систему')) {
+      if (this.statusCallback) {
+        this.statusCallback('Слишком частые запросы. Ждем 6 секунд...');
+      }
+      await new Promise(resolve => setTimeout(resolve, 6000));
+      return this.fetchWithAuth(url, options);
+    }
+
+    return response;
   }
 
   async login(login: string, pass: string): Promise<boolean> {

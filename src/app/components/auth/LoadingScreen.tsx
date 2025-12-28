@@ -21,6 +21,7 @@ export function LoadingScreen() {
 
         // Set credentials in parser so it can use them for requests
         osuParser.setCredentials(credentials.login, credentials.pass);
+        osuParser.setStatusCallback(setLoadingMessage);
         
         setLoadingMessage('Авторизуемся...');
         // Verify login works
