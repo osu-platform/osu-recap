@@ -18,12 +18,37 @@ export function Story15Final() {
     // Attendance percentage
     let totalClasses = 0;
     let attendedClasses = 0;
+    const subjectGroups = new Map<string, { count: number; subgroups: Set<string> }>();
+
     studentData.attendance.days.forEach(day => {
       day.classes.forEach(cls => {
-        totalClasses++;
-        if (cls.attendance.status === 'present') attendedClasses++;
+        // Count attended classes (numerator)
+        if (cls.attendance.status === 'present') {
+          attendedClasses++;
+        } else if (cls.attendance.status === 'partial') {
+          attendedClasses += 0.5;
+        }
+
+        // Group for total classes calculation (denominator)
+        const key = `${cls.subject}|${cls.type}`;
+        if (!subjectGroups.has(key)) {
+          subjectGroups.set(key, { count: 0, subgroups: new Set() });
+        }
+        
+        const group = subjectGroups.get(key)!;
+        group.count++;
+        if (cls.subgroup) {
+            group.subgroups.add(cls.subgroup);
+        }
       });
     });
+
+    // Calculate total classes by normalizing based on subgroup count
+    subjectGroups.forEach((group) => {
+      const subgroupCount = group.subgroups.size || 1;
+      totalClasses += group.count / subgroupCount;
+    });
+
     const attendancePercent = totalClasses > 0 ? Math.round((attendedClasses / totalClasses) * 100) : 0;
 
     // Average grade

@@ -11,16 +11,42 @@ export function Story8Attendance({ onSkip }: { onSkip?: () => void }) {
   let totalClasses = 0;
   let attendedClasses = 0;
 
+  // Group classes by subject and type to handle subgroups
+  const subjectGroups = new Map<string, { count: number; subgroups: Set<string> }>();
+
   if (studentData?.attendance?.days) {
     studentData.attendance.days.forEach(day => {
       day.classes.forEach(cls => {
-        totalClasses++;
+        // Count attended classes (numerator)
         if (cls.attendance.status === 'present') {
           attendedClasses++;
         } else if (cls.attendance.status === 'partial') {
-          attendedClasses += 0.5; // Count partial as half? Or maybe based on time?
+          attendedClasses += 0.5;
+        }
+
+        // Group for total classes calculation (denominator)
+        const key = `${cls.subject}|${cls.type}`;
+        if (!subjectGroups.has(key)) {
+          subjectGroups.set(key, { count: 0, subgroups: new Set() });
+        }
+        
+        const group = subjectGroups.get(key)!;
+        group.count++;
+        // Only add non-empty subgroups to the set to avoid counting "no subgroup" as a distinct subgroup
+        // if there are named subgroups. But usually it's either all named or all empty.
+        // Let's stick to adding everything, assuming consistency per subject/type.
+        if (cls.subgroup) {
+            group.subgroups.add(cls.subgroup);
         }
       });
+    });
+
+    // Calculate total classes by normalizing based on subgroup count
+    subjectGroups.forEach((group) => {
+      // If we have explicit subgroups, divide by their count.
+      // If no subgroups were found (set is empty), divisor is 1.
+      const subgroupCount = group.subgroups.size || 1;
+      totalClasses += group.count / subgroupCount;
     });
   }
 
