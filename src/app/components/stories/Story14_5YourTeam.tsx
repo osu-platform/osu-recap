@@ -1,8 +1,27 @@
 import { motion } from 'motion/react';
 import { StoryCard } from '../StoryCard';
 import { Users, Crown, Heart } from 'lucide-react';
+import { useAppStore } from '../../../store/appStore';
 
 export function Story14_5YourTeam() {
+  const studentData = useAppStore((state) => state.studentData);
+  const { headman, curator, group } = studentData?.student || {};
+
+  const formatName = (fullName: string | undefined) => {
+    if (!fullName) return { line1: 'Не указан', line2: '' };
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return {
+        line1: `${parts[0]} ${parts[1]}`,
+        line2: parts.slice(2).join(' '),
+      };
+    }
+    return { line1: fullName, line2: '' };
+  };
+
+  const headmanName = formatName(headman);
+  const curatorName = formatName(curator);
+
   return (
     <StoryCard gradient="from-violet-600 via-purple-600 to-fuchsia-600">
       <div className="text-center space-y-4 md:space-y-8 max-w-2xl px-4">
@@ -40,8 +59,8 @@ export function Story14_5YourTeam() {
               <Crown className="w-8 h-8 md:w-10 md:h-10 text-yellow-300" />
               <h3 className="text-lg md:text-2xl">Староста</h3>
             </div>
-            <p className="text-xl md:text-3xl mb-1 md:mb-2">Волков Никита</p>
-            <p className="text-xl md:text-3xl">Денисович</p>
+            <p className="text-xl md:text-3xl mb-1 md:mb-2">{headmanName.line1}</p>
+            <p className="text-xl md:text-3xl">{headmanName.line2}</p>
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -63,8 +82,8 @@ export function Story14_5YourTeam() {
               <Heart className="w-8 h-8 md:w-10 md:h-10" fill="white" />
               <h3 className="text-lg md:text-2xl">Куратор</h3>
             </div>
-            <p className="text-lg md:text-2xl mb-1">Туктамышева Лилия</p>
-            <p className="text-lg md:text-2xl">Мухаммадиевна</p>
+            <p className="text-lg md:text-2xl mb-1">{curatorName.line1}</p>
+            <p className="text-lg md:text-2xl">{curatorName.line2}</p>
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -82,7 +101,7 @@ export function Story14_5YourTeam() {
           transition={{ delay: 2.2 }}
           className="space-y-2 md:space-y-3 pt-2 md:pt-4"
         >
-          <p className="text-lg md:text-2xl">Группа 25ИСТ(б)-1</p>
+          <p className="text-lg md:text-2xl">Группа {group || 'Неизвестно'}</p>
           <p className="text-lg md:text-xl opacity-80 italic">
             Вместе вы — сила! 💪
           </p>
