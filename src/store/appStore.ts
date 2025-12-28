@@ -27,10 +27,12 @@ interface AppState {
   stage: AppStage;
   loadingMessage: string;
   studentData: StudentData | null;
+  currentStory: number;
   
   setStage: (stage: AppStage) => void;
   setLoadingMessage: (message: string) => void;
   setStudentData: (data: StudentData) => void;
+  setCurrentStory: (index: number) => void;
   reset: () => void;
 }
 
@@ -40,11 +42,13 @@ export const useAppStore = create<AppState>()(
       stage: 'intro',
       loadingMessage: '',
       studentData: null,
+      currentStory: 0,
 
       setStage: (stage) => set({ stage }),
       setLoadingMessage: (message) => set({ loadingMessage: message }),
       setStudentData: (data) => set({ studentData: data }),
-      reset: () => set({ stage: 'intro', loadingMessage: '', studentData: null }),
+      setCurrentStory: (index) => set({ currentStory: index }),
+      reset: () => set({ stage: 'intro', loadingMessage: '', studentData: null, currentStory: 0 }),
     }),
     {
       name: 'osu-recap-storage',

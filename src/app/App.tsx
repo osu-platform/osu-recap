@@ -105,8 +105,7 @@ const allStories: StoryConfig[] = [
 ];
 
 export default function App() {
-  const { stage, credentials, studentData, setStage, setCredentials } = useAppStore();
-  const [currentStory, setCurrentStory] = useState(0);
+  const { stage, credentials, studentData, currentStory, setStage, setCredentials, setCurrentStory } = useAppStore();
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -301,7 +300,7 @@ export default function App() {
         </motion.div>
 
         {/* Navigation areas (3-zone tap like Instagram) */}
-        <div className="absolute inset-0 z-40 flex">
+        <div className={`absolute inset-0 z-40 flex ${currentStory === stories.length - 1 ? 'pointer-events-none' : ''}`}>
           {/* Left zone - Previous */}
           <button
             onClick={() => handleStoryClick('left')}

@@ -6,7 +6,26 @@ import { useAppStore } from '@/store/appStore';
 import { useMemo } from 'react';
 
 export function Story15Final() {
-  const { studentData } = useAppStore();
+  const { studentData, setCurrentStory } = useAppStore();
+
+  const handleShare = async () => {
+    const text = 'Посмотри свои итоги года в ОГУ! 🎓✨';
+    const url = 'https://t.me/OSUrecapBot';
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'OSU Recap',
+          text: text,
+          url: url,
+        });
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+    }
+  };
 
   const stats = useMemo(() => {
     if (!studentData) return null;
@@ -130,11 +149,12 @@ export function Story15Final() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.3 }}
-          className="flex flex-col sm:flex-row justify-center gap-4 pt-4 md:pt-6"
+          className="relative z-50 flex flex-col sm:flex-row justify-center gap-4 pt-4 md:pt-6"
         >
           <motion.button
             whileHover={{ scale: 1.05, boxShadow: '0 10px 30px rgba(255,255,255,0.3)' }}
             whileTap={{ scale: 0.95 }}
+            onClick={(e) => { e.stopPropagation(); handleShare(); }}
             className="flex items-center justify-center gap-2 bg-white text-blue-700 px-6 py-3 md:px-8 md:py-4 rounded-full shadow-lg hover:shadow-xl transition-shadow"
           >
             <Share2 className="w-5 h-5 md:w-6 md:h-6" />
@@ -144,6 +164,7 @@ export function Story15Final() {
           <motion.button
             whileHover={{ scale: 1.05, rotate: 180 }}
             whileTap={{ scale: 0.95 }}
+            onClick={(e) => { e.stopPropagation(); setCurrentStory(0); }}
             className="flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm px-5 py-3 md:px-6 md:py-4 rounded-full border border-white/50 hover:bg-white/20 transition-colors"
           >
             <RotateCcw className="w-5 h-5 md:w-6 md:h-6" />
