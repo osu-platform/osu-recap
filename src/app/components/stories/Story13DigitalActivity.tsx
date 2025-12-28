@@ -12,7 +12,7 @@ export function Story13DigitalActivity() {
 
   return (
     <StoryCard gradient="from-orange-500 via-red-500 to-rose-600">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -24,14 +24,14 @@ export function Story13DigitalActivity() {
             animate={{ rotate: 0 }}
             transition={{ delay: 0.4, type: 'spring' }}
           >
-            <FileText size={64} />
+            <FileText className="w-12 h-12 md:w-16 md:h-16" />
           </motion.div>
           <motion.div
             initial={{ rotate: 180 }}
             animate={{ rotate: 0 }}
             transition={{ delay: 0.6, type: 'spring' }}
           >
-            <MessageSquare size={64} />
+            <MessageSquare className="w-12 h-12 md:w-16 md:h-16" />
           </motion.div>
         </motion.div>
 
@@ -40,27 +40,27 @@ export function Story13DigitalActivity() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <h2 className="text-4xl mb-6">Личный кабинет</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Личный кабинет</h2>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="space-y-6"
+          className="space-y-4 md:space-y-6"
         >
-          <p className="text-2xl">За семестр ты:</p>
+          <p className="text-lg md:text-2xl">За семестр ты:</p>
 
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 1.2, type: 'spring' }}
-            className="flex items-center justify-center gap-6 bg-white/20 backdrop-blur-sm rounded-2xl p-6"
+            className="flex items-center justify-center gap-4 md:gap-6 bg-white/20 backdrop-blur-sm rounded-2xl p-4 md:p-6"
           >
-            <FileText size={48} />
+            <FileText className="w-8 h-8 md:w-12 md:h-12" />
             <div className="text-left">
-              <div className="text-5xl mb-2">{statementsCount}</div>
-              <div className="text-xl">обращения оформил</div>
+              <div className="text-3xl md:text-5xl mb-1 md:mb-2">{statementsCount}</div>
+              <div className="text-base md:text-xl">обращения оформил</div>
             </div>
           </motion.div>
 
@@ -68,12 +68,12 @@ export function Story13DigitalActivity() {
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 1.5, type: 'spring' }}
-            className="flex items-center justify-center gap-6 bg-white/20 backdrop-blur-sm rounded-2xl p-6"
+            className="flex items-center justify-center gap-4 md:gap-6 bg-white/20 backdrop-blur-sm rounded-2xl p-4 md:p-6"
           >
-            <MessageSquare size={48} />
+            <MessageSquare className="w-8 h-8 md:w-12 md:h-12" />
             <div className="text-left">
-              <div className="text-5xl mb-2">{messagesCount}</div>
-              <div className="text-xl">сообщений преподавателям</div>
+              <div className="text-3xl md:text-5xl mb-1 md:mb-2">{messagesCount}</div>
+              <div className="text-base md:text-xl">сообщений преподавателям</div>
             </div>
           </motion.div>
         </motion.div>
@@ -82,10 +82,10 @@ export function Story13DigitalActivity() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2 }}
-          className="space-y-3 pt-4"
+          className="space-y-2 md:space-y-3 pt-2 md:pt-4"
         >
-          <p className="text-2xl">Университет — это диалог 💬</p>
-          <p className="text-lg opacity-80">
+          <p className="text-lg md:text-2xl">Университет — это диалог 💬</p>
+          <p className="text-base md:text-lg opacity-80">
             {totalActivity > 5 
               ? "Ты активно взаимодействовал с системой" 
               : totalActivity > 0 

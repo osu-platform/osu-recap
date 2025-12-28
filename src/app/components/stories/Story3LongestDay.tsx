@@ -30,13 +30,13 @@ export function Story3LongestDay() {
 
   return (
     <StoryCard gradient="from-yellow-500 via-orange-500 to-red-600">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ rotate: -180, scale: 0 }}
           animate={{ rotate: 0, scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 150 }}
         >
-          <Calendar size={72} className="mx-auto" />
+          <Calendar className="w-12 h-12 md:w-[72px] md:h-[72px] mx-auto" />
         </motion.div>
 
         <motion.div
@@ -44,27 +44,27 @@ export function Story3LongestDay() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-6">Самый длинный день в ОГУ</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Самый длинный день в ОГУ</h2>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.6, type: 'spring' }}
-          className="space-y-4"
+          className="space-y-2 md:space-y-4"
         >
-          <div className="text-6xl">{day} {month}</div>
-          <div className="text-7xl">{hours} ч {minutes} мин</div>
+          <div className="text-4xl md:text-6xl">{day} {month}</div>
+          <div className="text-5xl md:text-7xl">{hours} ч {minutes} мин</div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="space-y-3 text-xl opacity-90"
+          className="space-y-2 md:space-y-3 text-lg md:text-xl opacity-90"
         >
           <p>Кажется, это был непростой день</p>
-          <p className="text-lg italic opacity-75">Университет тогда почти стал домом 🏛️</p>
+          <p className="text-base md:text-lg italic opacity-75">Университет тогда почти стал домом 🏛️</p>
         </motion.div>
 
         {/* Timeline visualization */}

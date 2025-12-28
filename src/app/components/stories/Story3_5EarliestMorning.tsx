@@ -62,14 +62,14 @@ export function Story3_5EarliestMorning() {
 
   return (
     <StoryCard gradient="from-pink-400 via-rose-400 to-orange-400">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
           className="relative"
         >
-          <Sunrise size={80} className="mx-auto" />
+          <Sunrise className="w-16 h-16 md:w-20 md:h-20 mx-auto" />
           <motion.div
             animate={{
               y: [-5, 5, -5],
@@ -79,7 +79,7 @@ export function Story3_5EarliestMorning() {
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute -top-8 left-1/2 -translate-x-1/2 text-4xl"
+            className="absolute -top-8 left-1/2 -translate-x-1/2 text-2xl md:text-4xl"
           >
             ☀️
           </motion.div>
@@ -90,14 +90,14 @@ export function Story3_5EarliestMorning() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-6">{title}</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">{title}</h2>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.6, type: 'spring' }}
-          className="space-y-6"
+          className="space-y-4 md:space-y-6"
         >
           <p className="text-2xl">{day} {month}</p>
           <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-10 inline-block">

@@ -22,12 +22,12 @@ export function NavigationHints() {
           exit={{ opacity: 0, y: 20 }}
           className="absolute bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
         >
-          <div className="bg-black/50 backdrop-blur-md rounded-2xl px-6 py-4 text-white">
+          <div className="bg-black/50 backdrop-blur-md rounded-2xl px-4 py-3 md:px-6 md:py-4 text-white">
             <div className="flex items-center gap-6">
               {/* Left tap hint */}
               <div className="flex items-center gap-2">
-                <ChevronLeft size={20} />
-                <span className="text-sm">Назад</span>
+                <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="text-xs md:text-sm">Назад</span>
               </div>
 
               {/* Swipe hint */}
@@ -42,20 +42,20 @@ export function NavigationHints() {
                     ease: 'easeInOut',
                   }}
                 >
-                  <Hand size={20} />
+                  <Hand className="w-4 h-4 md:w-5 md:h-5" />
                 </motion.div>
-                <span className="text-sm">Свайп</span>
+                <span className="text-xs md:text-sm">Свайп</span>
               </div>
 
               {/* Right tap hint */}
               <div className="flex items-center gap-2">
-                <span className="text-sm">Вперёд</span>
-                <ChevronRight size={20} />
+                <span className="text-xs md:text-sm">Вперёд</span>
+                <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
               </div>
             </div>
 
             {/* Tap center hint */}
-            <div className="text-center mt-2 text-xs opacity-75">
+            <div className="text-center mt-2 text-[10px] md:text-xs opacity-75">
               Тап по центру — пауза
             </div>
           </div>

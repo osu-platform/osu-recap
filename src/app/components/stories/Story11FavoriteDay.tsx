@@ -62,13 +62,13 @@ export function Story11FavoriteDay({ onSkip }: { onSkip?: () => void }) {
 
   return (
     <StoryCard gradient="from-green-600 via-lime-500 to-yellow-500">
-      <div className="text-center space-y-8 max-w-2xl w-full px-4">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl w-full px-4">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         >
-          <CalendarDays size={72} className="mx-auto text-white/90" />
+          <CalendarDays className="w-12 h-12 md:w-[72px] md:h-[72px] mx-auto text-white/90" />
         </motion.div>
 
         <motion.div
@@ -76,7 +76,7 @@ export function Story11FavoriteDay({ onSkip }: { onSkip?: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-3xl font-bold mb-6">Твой самый активный день</h2>
+          <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-6">Твой самый активный день</h2>
         </motion.div>
 
         {/* Days of week circle */}
@@ -86,7 +86,7 @@ export function Story11FavoriteDay({ onSkip }: { onSkip?: () => void }) {
           transition={{ delay: 0.6 }}
           className="relative inline-block"
         >
-          <svg width="320" height="320" className="mx-auto overflow-visible">
+          <svg viewBox="0 0 320 320" className="w-64 h-64 md:w-[320px] md:h-[320px] mx-auto overflow-visible">
             {stats.days.map((day, i) => {
               const angle = (i * 360) / 7 - 90;
               const radius = 110;
@@ -149,10 +149,10 @@ export function Story11FavoriteDay({ onSkip }: { onSkip?: () => void }) {
           transition={{ delay: 1.5, type: 'spring' }}
           className="space-y-2"
         >
-          <div className="text-6xl font-bold mb-2">{stats.bestDayName}</div>
-          <p className="text-xl opacity-90">
+          <div className="text-4xl md:text-6xl font-bold mb-2">{stats.bestDayName}</div>
+          <p className="text-lg md:text-xl opacity-90">
             Суммарно ты провел в университете<br />
-            <span className="font-bold text-2xl">{stats.totalHours} часов</span> именно в этот день
+            <span className="font-bold text-xl md:text-2xl">{stats.totalHours} часов</span> именно в этот день
           </p>
         </motion.div>
 
@@ -160,7 +160,7 @@ export function Story11FavoriteDay({ onSkip }: { onSkip?: () => void }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="text-lg italic opacity-75 pt-4"
+          className="text-base md:text-lg italic opacity-75 pt-2 md:pt-4"
         >
           {stats.bestDayName} — день тяжелый? Или любимый? 🤔
         </motion.div>

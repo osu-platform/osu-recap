@@ -97,21 +97,21 @@ export function Story10Tardiness({ onSkip }: { onSkip?: () => void }) {
 
   return (
     <StoryCard gradient="from-violet-600 via-purple-600 to-fuchsia-600">
-      <div className="text-center space-y-6 max-w-2xl w-full px-4">
+      <div className="text-center space-y-4 md:space-y-6 max-w-2xl w-full px-4">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
         >
           <div className="relative inline-block">
-            <Clock size={80} className="text-white/90" />
+            <Clock className="w-16 h-16 md:w-20 md:h-20 text-white/90" />
             <motion.div 
               className="absolute -bottom-2 -right-2 bg-yellow-400 text-black rounded-full p-2"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.5 }}
             >
-              <Zap size={24} fill="currentColor" />
+              <Zap className="w-4 h-4 md:w-6 md:h-6" fill="currentColor" />
             </motion.div>
           </div>
         </motion.div>
@@ -121,30 +121,30 @@ export function Story10Tardiness({ onSkip }: { onSkip?: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-3xl font-bold mb-2">Твой стиль: {stats.title}</h2>
-          <p className="text-xl opacity-80">{stats.description}</p>
+          <h2 className="text-xl md:text-3xl font-bold mb-2">Твой стиль: {stats.title}</h2>
+          <p className="text-lg md:text-xl opacity-80">{stats.description}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.7 }}
-          className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/10"
+          className="bg-white/10 backdrop-blur-md rounded-3xl p-4 md:p-6 border border-white/10"
         >
-          <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
             <div>
-              <div className="text-5xl font-bold mb-1">{stats.totalPartials}</div>
+              <div className="text-3xl md:text-5xl font-bold mb-1">{stats.totalPartials}</div>
               <div className="text-sm opacity-70 leading-tight">пар с неполным<br/>присутствием</div>
             </div>
             <div>
-              <div className="text-5xl font-bold mb-1">{stats.avgPercent}%</div>
+              <div className="text-3xl md:text-5xl font-bold mb-1">{stats.avgPercent}%</div>
               <div className="text-sm opacity-70 leading-tight">среднее время<br/>на этих парах</div>
             </div>
           </div>
 
           <div className="border-t border-white/10 pt-4">
             <p className="text-sm opacity-60 mb-2 uppercase tracking-wider">Дисциплина для экономии времени</p>
-            <p className="text-2xl font-bold leading-tight">{stats.topSubject}</p>
+            <p className="text-lg md:text-2xl font-bold leading-tight">{stats.topSubject}</p>
             <p className="text-sm opacity-60 mt-1">({stats.topSubjectCount} раз)</p>
           </div>
         </motion.div>

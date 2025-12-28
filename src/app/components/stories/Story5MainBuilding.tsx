@@ -50,13 +50,13 @@ export function Story5MainBuilding() {
 
   return (
     <StoryCard gradient="from-amber-600 via-orange-600 to-rose-600">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, type: 'spring' }}
         >
-          <Building2 size={80} className="mx-auto" />
+          <Building2 className="w-16 h-16 md:w-20 md:h-20 mx-auto" />
         </motion.div>
 
         <motion.div
@@ -64,7 +64,7 @@ export function Story5MainBuilding() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-8">Твой основной корпус</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-8">Твой основной корпус</h2>
         </motion.div>
 
         <motion.div
@@ -73,7 +73,7 @@ export function Story5MainBuilding() {
           transition={{ delay: 0.6, type: 'spring', stiffness: 150 }}
           className="relative"
         >
-          <div className="text-9xl mb-4">{mainBuilding.display}</div>
+          <div className="text-7xl md:text-9xl mb-2 md:mb-4">{mainBuilding.display}</div>
           
           {/* Glow effect */}
           <motion.div
@@ -94,11 +94,11 @@ export function Story5MainBuilding() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="space-y-3"
+          className="space-y-2 md:space-y-3"
         >
-          <p className="text-2xl opacity-90">Здесь прошло больше всего времени</p>
-          <p className="text-xl opacity-75">Это место знает тебя лучше всех 🏛️</p>
-          <p className="text-lg opacity-60 mt-2">({mainBuilding.visits} посещений)</p>
+          <p className="text-lg md:text-2xl opacity-90">Здесь прошло больше всего времени</p>
+          <p className="text-lg md:text-xl opacity-75">Это место знает тебя лучше всех 🏛️</p>
+          <p className="text-base md:text-lg opacity-60 mt-2">({mainBuilding.visits} посещений)</p>
         </motion.div>
 
         {/* Simple building illustration */}
@@ -106,7 +106,7 @@ export function Story5MainBuilding() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="flex justify-center gap-2 pt-4"
+          className="flex justify-center gap-2 pt-2 md:pt-4"
         >
           {[...Array(5)].map((_, i) => (
             <motion.div
@@ -114,7 +114,7 @@ export function Story5MainBuilding() {
               initial={{ height: 0 }}
               animate={{ height: i === 2 ? 120 : 80 }}
               transition={{ delay: 1.4 + i * 0.1, type: 'spring' }}
-              className={`w-12 bg-white/30 rounded-t-lg ${i === 2 ? 'bg-white/50' : ''}`}
+              className={`w-8 md:w-12 bg-white/30 rounded-t-lg ${i === 2 ? 'bg-white/50' : ''}`}
             />
           ))}
         </motion.div>

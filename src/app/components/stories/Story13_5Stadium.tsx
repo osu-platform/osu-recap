@@ -101,7 +101,7 @@ export function Story13_5Stadium({ onSkip }: { onSkip?: () => void }) {
 
   return (
     <StoryCard gradient="from-emerald-600 via-green-600 to-teal-600">
-      <div className="text-center space-y-8 max-w-2xl w-full px-4">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl w-full px-4">
         <motion.div
           animate={{
             rotate: [0, -10, 10, -10, 0],
@@ -113,7 +113,7 @@ export function Story13_5Stadium({ onSkip }: { onSkip?: () => void }) {
             repeatDelay: 1
           }}
         >
-          <Dumbbell size={80} className="mx-auto text-white/90" />
+          <Dumbbell className="w-16 h-16 md:w-20 md:h-20 mx-auto text-white/90" />
         </motion.div>
 
         <motion.div
@@ -121,23 +121,23 @@ export function Story13_5Stadium({ onSkip }: { onSkip?: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h2 className="text-4xl font-bold mb-2">{title} {emoji}</h2>
-          <p className="text-xl opacity-80">{description}</p>
+          <h2 className="text-2xl md:text-4xl font-bold mb-2">{title} {emoji}</h2>
+          <p className="text-lg md:text-xl opacity-80">{description}</p>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.5, type: 'spring' }}
-          className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/10"
+          className="bg-white/10 backdrop-blur-md rounded-3xl p-4 md:p-6 border border-white/10"
         >
-          <div className="grid grid-cols-2 gap-8 mb-6">
+          <div className="grid grid-cols-2 gap-4 md:gap-8 mb-4 md:mb-6">
             <div>
-              <div className="text-5xl font-bold mb-1">{attendedDays}</div>
+              <div className="text-3xl md:text-5xl font-bold mb-1">{attendedDays}</div>
               <div className="text-sm opacity-70">тренировок</div>
             </div>
             <div>
-              <div className="text-5xl font-bold mb-1">{(totalSeconds / 3600).toFixed(1)}</div>
+              <div className="text-3xl md:text-5xl font-bold mb-1">{(totalSeconds / 3600).toFixed(1)}</div>
               <div className="text-sm opacity-70">часов спорта</div>
             </div>
           </div>
@@ -147,7 +147,7 @@ export function Story13_5Stadium({ onSkip }: { onSkip?: () => void }) {
               <MapPin size={14} />
               <span>Основная локация</span>
             </div>
-            <p className="text-2xl font-bold leading-tight">{displayLocation}</p>
+            <p className="text-lg md:text-2xl font-bold leading-tight">{displayLocation}</p>
           </div>
         </motion.div>
 
@@ -157,9 +157,9 @@ export function Story13_5Stadium({ onSkip }: { onSkip?: () => void }) {
           transition={{ delay: 1 }}
           className="space-y-2"
         >
-          <div className="text-6xl mb-2">{emoji}</div>
-          <h3 className="text-2xl font-bold">{title}</h3>
-          <p className="text-lg opacity-75 italic">{description}</p>
+          <div className="text-4xl md:text-6xl mb-2">{emoji}</div>
+          <h3 className="text-lg md:text-2xl font-bold">{title}</h3>
+          <p className="text-base md:text-lg opacity-75 italic">{description}</p>
         </motion.div>
 
         {/* Achievement Badge */}
@@ -167,9 +167,9 @@ export function Story13_5Stadium({ onSkip }: { onSkip?: () => void }) {
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 1.5, type: 'spring' }}
-          className="absolute bottom-8 right-8 opacity-20"
+          className="absolute bottom-24 right-8 opacity-20"
         >
-          <Trophy size={120} />
+          <Trophy className="w-20 h-20 md:w-[120px] md:h-[120px]" />
         </motion.div>
       </div>
     </StoryCard>

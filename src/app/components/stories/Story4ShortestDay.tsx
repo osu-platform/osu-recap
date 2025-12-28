@@ -52,13 +52,13 @@ export function Story4ShortestDay() {
 
   return (
     <StoryCard gradient="from-orange-500 via-amber-500 to-yellow-400">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ scale: 0, rotate: 180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         >
-          <Zap size={72} className="mx-auto" fill="white" />
+          <Zap className="w-12 h-12 md:w-[72px] md:h-[72px] mx-auto" fill="white" />
         </motion.div>
 
         <motion.div
@@ -66,25 +66,25 @@ export function Story4ShortestDay() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-6">Самый короткий визит</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Самый короткий визит</h2>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.6, type: 'spring' }}
-          className="space-y-4"
+          className="space-y-2 md:space-y-4"
         >
-          <div className="text-6xl">{day} {month}</div>
-          <div className="flex justify-center items-baseline gap-4">
+          <div className="text-4xl md:text-6xl">{day} {month}</div>
+          <div className="flex justify-center items-baseline gap-2 md:gap-4">
              {shortestDay.hours > 0 && (
                 <>
-                  <div className="text-8xl">{shortestDay.hours}</div>
-                  <div className="text-5xl">ч</div>
+                  <div className="text-6xl md:text-8xl">{shortestDay.hours}</div>
+                  <div className="text-3xl md:text-5xl">ч</div>
                 </>
              )}
-             <div className="text-8xl">{shortestDay.minutes}</div>
-             <div className="text-5xl">мин</div>
+             <div className="text-6xl md:text-8xl">{shortestDay.minutes}</div>
+             <div className="text-3xl md:text-5xl">мин</div>
           </div>
         </motion.div>
 
@@ -92,10 +92,10 @@ export function Story4ShortestDay() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="space-y-4"
+          className="space-y-2 md:space-y-4"
         >
-          <p className="text-2xl italic">{message}</p>
-          <p className="text-xl opacity-80">{subMessage}</p>
+          <p className="text-lg md:text-2xl italic">{message}</p>
+          <p className="text-lg md:text-xl opacity-80">{subMessage}</p>
         </motion.div>
 
         {/* Quick timer animation */}

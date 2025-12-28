@@ -48,14 +48,14 @@ export function Story7FavoriteTurnstile() {
 
   return (
     <StoryCard gradient="from-rose-500 via-pink-500 to-purple-600">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
         >
           <div className="relative inline-block">
-            <DoorOpen size={72} className="mx-auto" />
+            <DoorOpen className="w-12 h-12 md:w-[72px] md:h-[72px] mx-auto" />
             <motion.div
               animate={{
                 scale: [1, 1.3, 1],
@@ -65,7 +65,7 @@ export function Story7FavoriteTurnstile() {
                 repeat: 3,
                 delay: 0.5,
               }}
-              className="absolute -top-2 -right-2 text-3xl"
+              className="absolute -top-2 -right-2 text-2xl md:text-3xl"
             >
               ✨
             </motion.div>
@@ -77,18 +77,18 @@ export function Story7FavoriteTurnstile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-6">Твой любимый турникет</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Твой любимый турникет</h2>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.6, type: 'spring', stiffness: 150 }}
-          className="space-y-6"
+          className="space-y-4 md:space-y-6"
         >
-          <div className="inline-block px-12 py-6 bg-white/20 rounded-3xl backdrop-blur-sm">
-            <div className="text-7xl mb-2">{favoriteTurnstile.name}</div>
-            <div className="text-2xl opacity-90">({favoriteTurnstile.building})</div>
+          <div className="inline-block px-6 py-4 md:px-12 md:py-6 bg-white/20 rounded-3xl backdrop-blur-sm">
+            <div className="text-5xl md:text-7xl mb-2">{favoriteTurnstile.name}</div>
+            <div className="text-lg md:text-2xl opacity-90">({favoriteTurnstile.building})</div>
           </div>
         </motion.div>
 
@@ -96,7 +96,7 @@ export function Story7FavoriteTurnstile() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="space-y-4"
+          className="space-y-2 md:space-y-4"
         >
           <p className="text-3xl">Ты прошёл через него</p>
           <motion.div

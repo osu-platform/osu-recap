@@ -97,14 +97,14 @@ export function Story9PerfectAttendance({ onSkip }: { onSkip?: () => void }) {
     <StoryCard gradient={config.gradient}>
       <ParticleBackground count={30} emoji={config.emoji} speed={2} />
 
-      <div className="text-center space-y-6 max-w-2xl w-full px-4">
+      <div className="text-center space-y-4 md:space-y-6 max-w-2xl w-full px-4">
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 150 }}
           className="relative z-10"
         >
-          <Icon size={80} className="mx-auto text-white drop-shadow-lg" />
+          <Icon className="w-16 h-16 md:w-20 md:h-20 mx-auto text-white drop-shadow-lg" />
         </motion.div>
 
         <motion.div
@@ -113,15 +113,15 @@ export function Story9PerfectAttendance({ onSkip }: { onSkip?: () => void }) {
           transition={{ delay: 0.4 }}
           className="z-10"
         >
-          <h2 className="text-4xl font-bold mb-2">{config.title}</h2>
-          <p className="text-xl opacity-90">{config.subtitle}</p>
+          <h2 className="text-2xl md:text-4xl font-bold mb-2">{config.title}</h2>
+          <p className="text-lg md:text-xl opacity-90">{config.subtitle}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="space-y-4 w-full"
+          className="space-y-2 md:space-y-4 w-full"
         >
           {subjects.map((subject, index) => (
             <motion.div
@@ -129,19 +129,19 @@ export function Story9PerfectAttendance({ onSkip }: { onSkip?: () => void }) {
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.8 + index * 0.2, type: 'spring' }}
-              className="bg-white/20 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between gap-4"
+              className="bg-white/20 backdrop-blur-md rounded-2xl p-3 md:p-4 flex items-center justify-between gap-4"
             >
               <div className="text-left flex-1 min-w-0">
-                <div className="text-lg font-medium truncate leading-tight mb-1">
+                <div className="text-base md:text-lg font-medium truncate leading-tight mb-1">
                   {subject.name}
                 </div>
-                <div className="text-sm opacity-80">
+                <div className="text-xs md:text-sm opacity-80">
                   {subject.attended} из {subject.total} занятий
                 </div>
               </div>
               
               <div className="flex items-center gap-2">
-                <div className="text-3xl font-bold">{subject.percentage}%</div>
+                <div className="text-xl md:text-3xl font-bold">{subject.percentage}%</div>
               </div>
             </motion.div>
           ))}
@@ -152,9 +152,9 @@ export function Story9PerfectAttendance({ onSkip }: { onSkip?: () => void }) {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 1.5, type: 'spring' }}
-            className="pt-4"
+            className="pt-2 md:pt-4"
           >
-            <div className="inline-block bg-white/90 text-amber-600 px-6 py-2 rounded-full font-bold text-lg shadow-lg">
+            <div className="inline-block bg-white/90 text-amber-600 px-4 py-2 md:px-6 md:py-2 rounded-full font-bold text-base md:text-lg shadow-lg">
               Гордость университета 🎓
             </div>
           </motion.div>

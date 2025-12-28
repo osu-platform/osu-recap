@@ -37,13 +37,13 @@ export function Story6BuildingRating() {
 
   return (
     <StoryCard gradient="from-orange-600 via-red-500 to-pink-600">
-      <div className="text-center space-y-8 max-w-2xl w-full">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl w-full">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring' }}
         >
-          <BarChart3 size={64} className="mx-auto" />
+          <BarChart3 className="w-12 h-12 md:w-16 md:h-16 mx-auto" />
         </motion.div>
 
         <motion.div
@@ -51,14 +51,14 @@ export function Story6BuildingRating() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl">Где ты бывал чаще всего</h2>
+          <h2 className="text-2xl md:text-4xl">Где ты бывал чаще всего</h2>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="space-y-6 w-full max-w-md mx-auto"
+          className="space-y-4 md:space-y-6 w-full max-w-md mx-auto"
         >
           {buildingStats.map((building, index) => (
             <motion.div
@@ -68,18 +68,18 @@ export function Story6BuildingRating() {
               transition={{ delay: 0.8 + index * 0.2, type: 'spring' }}
               className="space-y-2"
             >
-              <div className="flex justify-between text-xl">
+              <div className="flex justify-between text-lg md:text-xl">
                 <span>{building.name}</span>
                 <span>{building.percent}%</span>
               </div>
-              <div className="h-12 bg-white/20 rounded-full overflow-hidden relative">
+              <div className="h-10 md:h-12 bg-white/20 rounded-full overflow-hidden relative">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${building.percent}%` }}
                   transition={{ delay: 1 + index * 0.2, duration: 1, ease: "easeOut" }}
                   className="absolute top-0 left-0 h-full bg-white/80"
                 />
-                <div className="absolute inset-0 flex items-center px-4 text-black/60 font-bold">
+                <div className="absolute inset-0 flex items-center px-4 text-black/60 font-bold text-sm md:text-base">
                    {building.count} посещений
                 </div>
               </div>
@@ -91,7 +91,7 @@ export function Story6BuildingRating() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="text-xl opacity-80"
+          className="text-lg md:text-xl opacity-80"
         >
           Твоя университетская география 🗺️
         </motion.div>

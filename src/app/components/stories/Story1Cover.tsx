@@ -33,21 +33,21 @@ export function Story1Cover() {
       {/* Falling leaves animation */}
       <ParticleBackground count={20} emoji={['🍂', '🍁', '✨']} speed={3} />
 
-      <div className="z-10 text-center flex flex-col items-center justify-center h-full pb-20">
+      <div className="z-10 text-center flex flex-col items-center justify-center h-full pb-10 md:pb-20">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+          className="mb-4 md:mb-8"
         >
-          <div className="text-2xl font-light tracking-widest uppercase opacity-80 mb-2">
+          <div className="text-lg md:text-2xl font-light tracking-widest uppercase opacity-80 mb-2">
             ОГУ Recap
           </div>
-          <div className="w-16 h-1 bg-white/50 mx-auto rounded-full" />
+          <div className="w-12 md:w-16 h-1 bg-white/50 mx-auto rounded-full" />
         </motion.div>
 
         <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
@@ -57,7 +57,7 @@ export function Story1Cover() {
         </motion.h1>
 
         <motion.p 
-          className="text-xl md:text-2xl opacity-90 max-w-md mx-auto leading-relaxed"
+          className="text-lg md:text-2xl opacity-90 max-w-md mx-auto leading-relaxed"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}

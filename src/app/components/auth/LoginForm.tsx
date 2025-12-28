@@ -47,14 +47,14 @@ export function LoginForm() {
       <motion.form
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md space-y-8"
+        className="w-full max-w-md space-y-6 md:space-y-8"
         onSubmit={handleSubmit}
       >
         <div className="space-y-2">
-          <h2 className="text-3xl font-light">
+          <h2 className="text-xl md:text-3xl font-light">
             {step === 'login' ? 'Ваш логин от ЛК ОГУ' : 'Теперь пароль'}
           </h2>
-          <p className="text-gray-500">
+          <p className="text-sm md:text-base text-gray-500">
             {step === 'login' ? 'Обычно это электронная почта' : 'Тот же, что вы используете для входа на сайт'}
           </p>
         </div>
@@ -65,7 +65,7 @@ export function LoginForm() {
               autoFocus
               type="text"
               placeholder="Например, example@mail.com"
-              className="text-2xl p-6 bg-transparent border-b-2 border-zinc-800 rounded-none focus-visible:ring-0 focus-visible:border-white transition-colors placeholder:text-zinc-700"
+              className="text-lg md:text-2xl p-4 md:p-6 bg-transparent border-b-2 border-zinc-800 rounded-none focus-visible:ring-0 focus-visible:border-white transition-colors placeholder:text-zinc-700"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
             />
@@ -74,7 +74,7 @@ export function LoginForm() {
               autoFocus
               type="password"
               placeholder="••••••••"
-              className="text-2xl p-6 bg-transparent border-b-2 border-zinc-800 rounded-none focus-visible:ring-0 focus-visible:border-white transition-colors placeholder:text-zinc-700"
+              className="text-lg md:text-2xl p-4 md:p-6 bg-transparent border-b-2 border-zinc-800 rounded-none focus-visible:ring-0 focus-visible:border-white transition-colors placeholder:text-zinc-700"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -86,7 +86,7 @@ export function LoginForm() {
         <Button 
           type="submit" 
           size="lg" 
-          className="w-full py-6 text-lg rounded-full"
+          className="w-full py-4 md:py-6 text-base md:text-lg rounded-full"
           disabled={(step === 'login' ? !login : !password) || isLoading}
         >
           {isLoading ? (
@@ -94,7 +94,7 @@ export function LoginForm() {
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
             >
-              <Loader2 className="w-6 h-6" />
+              <Loader2 className="w-5 h-5 md:w-6 md:h-6" />
             </motion.div>
           ) : (
             step === 'login' ? 'Далее' : 'Войти'

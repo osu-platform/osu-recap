@@ -64,13 +64,13 @@ export function Story8Attendance({ onSkip }: { onSkip?: () => void }) {
 
   return (
     <StoryCard gradient="from-purple-600 via-indigo-600 to-blue-600">
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 150 }}
         >
-          <CheckCircle2 size={72} className="mx-auto" />
+          <CheckCircle2 className="w-12 h-12 md:w-[72px] md:h-[72px] mx-auto" />
         </motion.div>
 
         <motion.div
@@ -78,7 +78,7 @@ export function Story8Attendance({ onSkip }: { onSkip?: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-6">Ты ходил на пары</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Ты ходил на пары</h2>
         </motion.div>
 
         {/* Circular progress */}
@@ -88,7 +88,7 @@ export function Story8Attendance({ onSkip }: { onSkip?: () => void }) {
           transition={{ delay: 0.6 }}
           className="relative inline-block"
         >
-          <svg width="280" height="280" className="transform -rotate-90">
+          <svg viewBox="0 0 280 280" className="w-56 h-56 md:w-[280px] md:h-[280px] transform -rotate-90">
             <circle
               cx="140"
               cy="140"

@@ -35,7 +35,7 @@ export function Story0FirstDay() {
       {/* Sparkles animation */}
       <ParticleBackground count={25} emoji={['✨', '💫', '⭐']} speed={4} />
 
-      <div className="text-center space-y-8 max-w-2xl">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl">
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -43,7 +43,7 @@ export function Story0FirstDay() {
           className="relative z-10"
         >
           <div className="flex items-center justify-center gap-4">
-            <Calendar size={72} />
+            <Calendar className="w-12 h-12 md:w-[72px] md:h-[72px]" />
             <motion.div
               animate={{
                 scale: [1, 1.3, 1],
@@ -54,7 +54,7 @@ export function Story0FirstDay() {
                 ease: 'easeInOut',
               }}
             >
-              <Heart size={48} fill="white" className="absolute -top-2 -right-2" />
+              <Heart fill="white" className="w-8 h-8 md:w-12 md:h-12 absolute -top-2 -right-2" />
             </motion.div>
           </div>
         </motion.div>
@@ -65,17 +65,17 @@ export function Story0FirstDay() {
           transition={{ delay: 0.4 }}
           className="z-10"
         >
-          <h2 className="text-4xl mb-6">Помнишь первый день?</h2>
+          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Помнишь первый день?</h2>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.6, type: 'spring' }}
-          className="z-10 space-y-6"
+          className="z-10 space-y-4 md:space-y-6"
         >
           <motion.div 
-            className="text-7xl"
+            className="text-5xl md:text-7xl"
             animate={{
               textShadow: [
                 '0 0 20px rgba(255,255,255,0.5)',
@@ -91,10 +91,10 @@ export function Story0FirstDay() {
           >
             {day} {month}
           </motion.div>
-          <div className="text-3xl opacity-90">{year}</div>
+          <div className="text-xl md:text-3xl opacity-90">{year}</div>
           
-          <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 inline-block mt-6">
-            <p className="text-2xl mb-4">Ты пришёл в</p>
+          <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-4 md:p-8 inline-block mt-4 md:mt-6">
+            <p className="text-lg md:text-2xl mb-2 md:mb-4">Ты пришёл в</p>
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}

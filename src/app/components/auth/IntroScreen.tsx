@@ -21,12 +21,12 @@ export function IntroScreen() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-md space-y-8"
+        className="max-w-md space-y-6 md:space-y-8"
       >
-        <h1 className="text-5xl font-bold tracking-tighter bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tighter bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
           ОГУ Recap
         </h1>
-        <p className="text-xl text-gray-400">
+        <p className="text-lg md:text-xl text-gray-400">
           Твой персональный итог осеннего семестра 2025.
           Узнай, сколько времени ты провел в университете, кто твой любимый турникет и многое другое.
         </p>
@@ -38,10 +38,10 @@ export function IntroScreen() {
         >
           <Button 
             size="lg" 
-            className="text-lg px-8 py-6 rounded-full bg-white text-black hover:bg-gray-200 transition-colors"
+            className="text-base md:text-lg px-6 py-4 md:px-8 md:py-6 rounded-full bg-white text-black hover:bg-gray-200 transition-colors"
             onClick={handleStart}
           >
-            {credentials ? 'Продолжить' : 'Начать'} <ArrowRight className="ml-2 w-5 h-5" />
+            {credentials ? 'Продолжить' : 'Начать'} <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
           </Button>
         </motion.div>
       </motion.div>

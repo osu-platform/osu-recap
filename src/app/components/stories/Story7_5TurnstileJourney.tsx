@@ -46,13 +46,13 @@ export function Story7_5TurnstileJourney() {
 
   return (
     <StoryCard gradient="from-purple-500 via-pink-500 to-rose-500">
-      <div className="text-center space-y-8 max-w-2xl w-full px-4">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl w-full px-4">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         >
-          <MapPin size={72} className="mx-auto" />
+          <MapPin className="w-12 h-12 md:w-[72px] md:h-[72px] mx-auto" />
         </motion.div>
 
         <motion.div
@@ -60,15 +60,15 @@ export function Story7_5TurnstileJourney() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="text-4xl mb-4">Путешествие по корпусам</h2>
-          <p className="text-xl opacity-90">Твоя карта перемещений</p>
+          <h2 className="text-2xl md:text-4xl mb-2 md:mb-4">Путешествие по корпусам</h2>
+          <p className="text-lg md:text-xl opacity-90">Твоя карта перемещений</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="space-y-4 w-full max-w-lg mx-auto"
+          className="space-y-2 md:space-y-4 w-full max-w-lg mx-auto"
         >
           {journeys.items.map((journey, index) => (
             <motion.div
@@ -76,12 +76,12 @@ export function Story7_5TurnstileJourney() {
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.8 + index * 0.2, type: 'spring' }}
-              className="bg-white/20 backdrop-blur-sm rounded-2xl p-6"
+              className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 md:p-6"
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex-1 text-left">
-                  <div className="text-lg opacity-90">Вход</div>
-                  <div className="text-2xl font-bold">{journey.from}</div>
+                  <div className="text-base md:text-lg opacity-90">Вход</div>
+                  <div className="text-lg md:text-2xl font-bold">{journey.from}</div>
                 </div>
                 
                 <motion.div
@@ -95,7 +95,7 @@ export function Story7_5TurnstileJourney() {
                     delay: index * 0.3,
                   }}
                 >
-                  <ArrowRight size={32} />
+                  <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
                 </motion.div>
                 
                 <div className="flex-1 text-right">

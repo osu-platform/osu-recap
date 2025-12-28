@@ -115,12 +115,12 @@ export function Story12MorningOrEvening({ onSkip }: { onSkip?: () => void }) {
 
   return (
     <StoryCard gradient={stats.gradient}>
-      <div className="text-center space-y-8 max-w-2xl w-full px-4">
+      <div className="text-center space-y-4 md:space-y-8 max-w-2xl w-full px-4">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="flex justify-center items-center gap-12"
+          className="flex justify-center items-center gap-8 md:gap-12"
         >
           <motion.div
             initial={{ scale: 0.5, opacity: 0.5 }}
@@ -131,14 +131,14 @@ export function Story12MorningOrEvening({ onSkip }: { onSkip?: () => void }) {
             }}
             transition={{ delay: 0.4, type: 'spring' }}
           >
-            <Sun size={stats.isMorning ? 80 : 60} className="text-yellow-100" />
+            <Sun className={`text-yellow-100 ${stats.isMorning ? 'w-16 h-16 md:w-20 md:h-20' : 'w-12 h-12 md:w-16 md:h-16'}`} />
           </motion.div>
           
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.6, type: 'spring' }}
-            className="text-4xl font-bold opacity-80"
+            className="text-2xl md:text-4xl font-bold opacity-80"
           >
             VS
           </motion.div>
@@ -152,7 +152,7 @@ export function Story12MorningOrEvening({ onSkip }: { onSkip?: () => void }) {
             }}
             transition={{ delay: 0.4, type: 'spring' }}
           >
-            <Moon size={!stats.isMorning ? 80 : 60} className="text-blue-100" />
+            <Moon className={`text-blue-100 ${!stats.isMorning ? 'w-16 h-16 md:w-20 md:h-20' : 'w-12 h-12 md:w-16 md:h-16'}`} />
           </motion.div>
         </motion.div>
 
@@ -161,22 +161,22 @@ export function Story12MorningOrEvening({ onSkip }: { onSkip?: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <h2 className="text-4xl font-bold mb-2">{stats.title}</h2>
-          <p className="text-xl opacity-90">{stats.subtitle}</p>
+          <h2 className="text-2xl md:text-4xl font-bold mb-2">{stats.title}</h2>
+          <p className="text-lg md:text-xl opacity-90">{stats.subtitle}</p>
         </motion.div>
 
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 1, type: 'spring', stiffness: 150 }}
-          className="space-y-6"
+          className="space-y-4 md:space-y-6"
         >
-          <div className="bg-white/20 backdrop-blur-md rounded-3xl p-8 inline-block border border-white/10">
-            <p className="text-2xl mb-2 opacity-90">Обычно ты в универе к</p>
-            <p className="text-7xl font-bold mb-4 tracking-tight">{stats.avgTimeStr}</p>
+          <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-8 inline-block border border-white/10">
+            <p className="text-lg md:text-2xl mb-2 opacity-90">Обычно ты в универе к</p>
+            <p className="text-5xl md:text-7xl font-bold mb-4 tracking-tight">{stats.avgTimeStr}</p>
             <div className="flex items-center justify-center gap-2 opacity-80">
-              {stats.isMorning ? <Sunrise size={20} /> : <Sunset size={20} />}
-              <span className="text-lg">{stats.percent}% приходов {stats.isMorning ? 'утром' : 'днем'}</span>
+              {stats.isMorning ? <Sunrise className="w-4 h-4 md:w-5 md:h-5" /> : <Sunset className="w-4 h-4 md:w-5 md:h-5" />}
+              <span className="text-base md:text-lg">{stats.percent}% приходов {stats.isMorning ? 'утром' : 'днем'}</span>
             </div>
           </div>
         </motion.div>
@@ -186,9 +186,9 @@ export function Story12MorningOrEvening({ onSkip }: { onSkip?: () => void }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="pt-8 w-full max-w-md mx-auto"
+          className="pt-4 md:pt-8 w-full max-w-md mx-auto"
         >
-          <div className="flex justify-between gap-1 h-32 px-4">
+          <div className="flex justify-between gap-1 h-24 md:h-32 px-4">
             {stats.histogram.map((bar, i) => (
               <div key={bar.hour} className="flex flex-col items-center flex-1 h-full group relative">
                 <div className="flex-1 w-full flex items-end justify-center">
@@ -201,7 +201,7 @@ export function Story12MorningOrEvening({ onSkip }: { onSkip?: () => void }) {
                     }`}
                   />
                 </div>
-                <span className="text-[10px] opacity-60 mt-1">{bar.hour}</span>
+                <span className="text-[8px] md:text-[10px] opacity-60 mt-1">{bar.hour}</span>
               </div>
             ))}
           </div>

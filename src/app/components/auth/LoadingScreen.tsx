@@ -84,7 +84,7 @@ export function LoadingScreen() {
       >
         <div className="relative">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-20 rounded-full animate-pulse" />
-          <Loader2 className="w-12 h-12 animate-spin text-blue-500 relative z-10" />
+          <Loader2 className="w-10 h-10 md:w-12 md:h-12 animate-spin text-blue-500 relative z-10" />
         </div>
         
         <motion.p
@@ -92,7 +92,7 @@ export function LoadingScreen() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="text-xl font-light text-center min-h-[3rem]"
+          className="text-lg md:text-xl font-light text-center min-h-[3rem]"
         >
           {loadingMessage}
         </motion.p>
