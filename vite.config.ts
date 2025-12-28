@@ -12,14 +12,6 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
-    proxy: {
-      '/api/osu': {
-        target: 'https://www.osu.ru',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/osu/, ''),
-        secure: false,
-      },
-    },
   },
   resolve: {
     alias: {
