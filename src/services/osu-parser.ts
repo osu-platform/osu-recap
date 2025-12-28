@@ -7,6 +7,7 @@ export class OsuParser {
     : 'https://d5dqok8k42ev7cutajq7.z7jmlavt.apigw.yandexcloud.net/api/osu';
   private credentials: { login: string; pass: string } | null = null;
   private statusCallback: ((message: string) => void) | null = null;
+  private lastRequestTime = 0;
 
   setCredentials(login: string, pass: string) {
     this.credentials = { login, pass };
@@ -20,6 +21,15 @@ export class OsuParser {
     if (!this.credentials) {
       throw new Error("No credentials provided");
     }
+
+    // Rate limiting: ensure at least 2 seconds between requests
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+    if (timeSinceLastRequest < 2000) {
+      await new Promise(resolve => setTimeout(resolve, 2000 - timeSinceLastRequest));
+    }
+
+    this.lastRequestTime = Date.now();
 
     const body = new URLSearchParams(options.body as any);
     body.append('login', this.credentials.login);
@@ -44,9 +54,9 @@ export class OsuParser {
 
     if (text.includes('Вы слишком часто пытаетесь входить в систему')) {
       if (this.statusCallback) {
-        this.statusCallback('Слишком частые запросы. Ждем 6 секунд...');
+        this.statusCallback('Ждем пару секунд...');
       }
-      await new Promise(resolve => setTimeout(resolve, 6000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       return this.fetchWithAuth(url, options);
     }
 
