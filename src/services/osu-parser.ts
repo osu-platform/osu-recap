@@ -2,9 +2,10 @@ import * as cheerio from 'cheerio';
 import { StudentData, ScudDay, ScudSession, StudentProfile, StatementsData, MessagesData, ProgressData, ProgressSubject } from '../types/student';
 
 export class OsuParser {
-  private baseUrl = import.meta.env.DEV 
-    ? '/api/osu' 
-    : 'https://d5dqok8k42ev7cutajq7.z7jmlavt.apigw.yandexcloud.net/api/osu';
+  private baseUrl = "https://www.osu.ru"
+  // private baseUrl = import.meta.env.DEV 
+  //   ? '/api/osu' 
+  //   : 'https://d5dqok8k42ev7cutajq7.z7jmlavt.apigw.yandexcloud.net/api/osu';
   private credentials: { login: string; pass: string } | null = null;
   private statusCallback: ((message: string) => void) | null = null;
   private lastRequestTime = 0;
