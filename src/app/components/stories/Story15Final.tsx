@@ -71,12 +71,12 @@ export function Story15Final() {
     const attendancePercent = totalClasses > 0 ? Math.round((attendedClasses / totalClasses) * 100) : 0;
 
     // Average grade
-    const avgGrade = studentData.progress?.averageGrade || 0;
+    const avgGrade = studentData.progress?.finalStats.averageGrade || 0;
 
     return [
       { value: `${totalHours}ч`, label: 'в университете' },
       { value: `${attendancePercent}%`, label: 'посещаемость' },
-      { value: avgGrade > 0 ? avgGrade.toFixed(1) : '-', label: 'средний балл' },
+      { value: avgGrade > 0 ? avgGrade.toFixed(2) : '-', label: 'средний балл' },
     ];
   }, [studentData]);
 

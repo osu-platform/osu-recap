@@ -440,75 +440,142 @@ export class OsuParser {
   parseProgress(html: string): ProgressData {
     const $ = cheerio.load(html);
     const subjects: ProgressSubject[] = [];
-    let totalMarksSum = 0;
-    let totalMarksCount = 0;
-    let totalPassed = 0;
+    
+    let module1PassedCount = 0;
+    let module1GradesSum = 0;
+    let module1GradesCount = 0;
+    
+    let module2PassedCount = 0;
+    let module2GradesSum = 0;
+    let module2GradesCount = 0;
+    
+    let finalPassedCount = 0;
+    let finalAverageGrade = 0; // Итоговый средний балл из строки sem_sum
 
     $('.progress_table tr').each((i, row) => {
-      // Skip header rows
-      if ($(row).find('th').length > 0 || $(row).hasClass('sem_sum') || $(row).hasClass('sem_separator')) return;
+      // Parse summary row to get final average grade
+      if ($(row).hasClass('sem_sum')) {
+        const cells = $(row).find('td');
+        // Structure: colspan="3" (Итого), then 4 more cells with numbers
+        // Look for numeric values in the row
+        let finalAvg = 0;
+        cells.each((idx, cell) => {
+          const text = $(cell).text().trim();
+          const num = parseFloat(text);
+          // The last numeric value in sem_sum row should be the final average (usually around 3-5)
+          if (!isNaN(num) && num > 0 && num <= 5 && idx > 0) {
+            finalAvg = num; // Keep updating, last one will be the final average
+          }
+        });
+        finalAverageGrade = finalAvg;
+        return;
+      }
       
-      // Check if it's a data row (has td)
+      // Skip header rows, separators, and group names
+      if ($(row).find('th').length > 0 || 
+          $(row).hasClass('sem_separator') ||
+          $(row).find('td.group_name').length > 0) return;
+      
       const cells = $(row).find('td');
-      if (cells.length < 8) return;
+      if (cells.length < 9) return;
 
-      // Structure based on HTML:
-      // 0: Semester
-      // 1: Subject Name
-      // 2: Control Type
-      // 3: Mod 1 Mark
-      // 4: Mod 1 Skips
-      // 5: Mod 2 Mark
-      // 6: Mod 2 Skips
-      // 7: Final Mark? (Or just empty space before teacher)
-      
+      // Structure: Semester, Subject, ControlType, Mod1Mark, Mod1Skips, Mod2Mark, Mod2Skips, FinalMark, Teacher
+      const semester = parseInt($(cells[0]).text().trim()) || 1;
       const name = $(cells[1]).text().trim();
       const controlType = $(cells[2]).text().trim();
+      const isExam = controlType.toLowerCase().includes('экзамен') || 
+                     controlType.toLowerCase().includes('дифференцированный');
       
-      // Extract marks from Mod 1 (idx 3) and Mod 2 (idx 5)
-      const markCells = [$(cells[3]), $(cells[5])];
-      const marks: number[] = [];
-      let isPassed = false;
-
-      markCells.forEach(cell => {
-        const text = cell.text().trim();
-        const title = cell.find('span').attr('title'); // "отлично", "хорошо", "зачтено"
-        
-        // Check for numeric marks
-        if (text === '5' || text === '4' || text === '3') {
-          marks.push(parseInt(text));
-          isPassed = true;
-        }
-        
-        // Check for "z" (zach)
-        if (text.toLowerCase() === 'з' || title === 'зачтено') {
-          isPassed = true;
-        }
-      });
-
-      if (marks.length > 0) {
-        totalMarksSum += marks.reduce((a, b) => a + b, 0);
-        totalMarksCount += marks.length;
-      }
-
-      if (isPassed) {
-        totalPassed++;
-      }
-
+      // Parse Module 1
+      const mod1Cell = $(cells[3]);
+      const mod1Mark = mod1Cell.text().trim();
+      const mod1Title = mod1Cell.find('span').attr('title') || '';
+      const mod1Numeric = ['3', '4', '5'].includes(mod1Mark) ? parseInt(mod1Mark) : undefined;
+      const mod1Passed = mod1Mark.toLowerCase() === 'з' || mod1Title === 'зачтено' || !!mod1Numeric;
+      const mod1Skips = parseInt($(cells[4]).text().trim()) || 0;
+      
+      const module1 = {
+        mark: mod1Mark,
+        title: mod1Title,
+        numericValue: mod1Numeric,
+        isPassed: mod1Passed,
+        skips: mod1Skips
+      };
+      
+      // Parse Module 2
+      const mod2Cell = $(cells[5]);
+      const mod2Mark = mod2Cell.text().trim();
+      const mod2Title = mod2Cell.find('span').attr('title') || '';
+      const mod2Numeric = ['3', '4', '5'].includes(mod2Mark) ? parseInt(mod2Mark) : undefined;
+      const mod2Passed = mod2Mark.toLowerCase() === 'з' || mod2Title === 'зачтено' || !!mod2Numeric;
+      const mod2Skips = parseInt($(cells[6]).text().trim()) || 0;
+      
+      const module2 = {
+        mark: mod2Mark,
+        title: mod2Title,
+        numericValue: mod2Numeric,
+        isPassed: mod2Passed,
+        skips: mod2Skips
+      };
+      
+      // Parse Final Mark
+      const finalCell = $(cells[7]);
+      const finalMark = finalCell.text().trim();
+      const finalTitle = finalMark;
+      const finalNumeric = ['3', '4', '5'].includes(finalMark) ? parseInt(finalMark) : undefined;
+      
+      // Parse Teacher
+      const teacher = $(cells[8]).text().trim();
+      
       subjects.push({
+        semester,
         name,
         controlType,
-        marks,
-        isPassed
+        isExam,
+        module1,
+        module2,
+        finalMark,
+        finalTitle,
+        finalNumericValue: finalNumeric,
+        teacher
       });
+      
+      // Calculate Module 1 stats
+      if (mod1Passed) module1PassedCount++;
+      if (mod1Numeric) {
+        module1GradesSum += mod1Numeric;
+        module1GradesCount++;
+      }
+      
+      // Calculate Module 2 stats
+      if (mod2Passed) module2PassedCount++;
+      if (mod2Numeric) {
+        module2GradesSum += mod2Numeric;
+        module2GradesCount++;
+      }
+      
+      // Calculate Final stats - count passed subjects
+      const finalPassed = finalMark.toLowerCase().includes('зачтено') || 
+                         finalMark.toLowerCase().includes('отлично') ||
+                         finalMark.toLowerCase().includes('хорошо') ||
+                         finalMark.toLowerCase().includes('удовлетворительно');
+      if (finalPassed) finalPassedCount++;
     });
-
-    const averageGrade = totalMarksCount > 0 ? totalMarksSum / totalMarksCount : 0;
 
     return {
       subjects,
-      averageGrade,
-      totalPassed
+      module1Stats: {
+        passedCount: module1PassedCount,
+        averageGrade: module1GradesCount > 0 ? module1GradesSum / module1GradesCount : 0
+      },
+      module2Stats: {
+        passedCount: module2PassedCount,
+        averageGrade: module2GradesCount > 0 ? module2GradesSum / module2GradesCount : 0
+      },
+      finalStats: {
+        passedCount: finalPassedCount,
+        averageGrade: finalAverageGrade
+      }
     };
   }
 

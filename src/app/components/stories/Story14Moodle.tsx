@@ -1,110 +1,158 @@
 import { motion } from 'motion/react';
 import { StoryCard } from '../StoryCard';
-import { GraduationCap, Star } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 
 export function Story14Moodle() {
   const { studentData } = useAppStore();
   const progress = studentData?.progress;
 
-  const passedCount = progress?.totalPassed || 0;
-  const averageGrade = progress?.averageGrade || 0;
+  const module1Passed = progress?.module1Stats.passedCount || 0;
+  const module1Avg = progress?.module1Stats.averageGrade || 0;
+  
+  const module2Passed = progress?.module2Stats.passedCount || 0;
+  const module2Avg = progress?.module2Stats.averageGrade || 0;
+  
+  const finalPassed = progress?.finalStats.passedCount || 0;
+  const finalAvg = progress?.finalStats.averageGrade || 0;
 
   return (
-    <StoryCard gradient="from-rose-600 via-purple-600 to-indigo-700">
-      <div className="text-center space-y-4 md:space-y-8 max-w-2xl w-full">
+    <StoryCard gradient="from-violet-600 via-purple-600 to-fuchsia-700">
+      <div className="text-center space-y-4 max-w-2xl w-full px-4">
         <motion.div
-          initial={{ y: -50, opacity: 0, rotate: -180 }}
-          animate={{ y: 0, opacity: 1, rotate: 0 }}
-          transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="mb-2"
         >
-          <GraduationCap className="mx-auto w-16 h-16 md:w-20 md:h-20" />
+          <h2 className="text-2xl md:text-3xl font-bold mb-1">Твоя успеваемость</h2>
         </motion.div>
 
+        {/* Модули в одном блоке */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="space-y-3"
         >
-          <h2 className="text-2xl md:text-4xl mb-4 md:mb-6">Твоя успеваемость</h2>
-          <p className="text-lg md:text-2xl opacity-90">За этот семестр:</p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="space-y-4 md:space-y-6"
-        >
+          {/* Модуль 1 */}
           <motion.div
-            initial={{ scale: 0, rotate: -10 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.9, type: 'spring', stiffness: 150 }}
-            className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 md:p-8 inline-block w-full md:w-auto md:min-w-[400px]"
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="bg-white/10 backdrop-blur-sm rounded-2xl p-4"
           >
-            <div className="flex items-center justify-center gap-4 mb-4 md:mb-6">
-              <div className="text-5xl md:text-7xl">{passedCount}</div>
-              <div className="text-left text-lg md:text-2xl">предметов<br />сдано</div>
-            </div>
-            
-            <div className="flex justify-center gap-1 flex-wrap max-w-[300px] mx-auto">
-              {[...Array(Math.min(passedCount, 20))].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1.2 + i * 0.05 }}
-                  className="w-1.5 h-6 md:w-2 md:h-8 bg-white/60 rounded-full"
-                />
-              ))}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">1</div>
+                <span className="text-lg font-semibold">Первый модуль</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold">{module1Passed}</div>
+                  <div className="text-xs opacity-70">сдано</div>
+                </div>
+                {module1Avg > 0 && (
+                  <div className="text-center">
+                    <div className="text-2xl md:text-3xl font-bold text-yellow-300">{module1Avg.toFixed(2)}</div>
+                    <div className="text-xs opacity-70">ср. балл</div>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
 
-          {averageGrade > 0 && (
+          {/* Модуль 2 */}
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.9 }}
+            className="bg-white/10 backdrop-blur-sm rounded-2xl p-4"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">2</div>
+                <span className="text-lg font-semibold">Второй модуль</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold">{module2Passed}</div>
+                  <div className="text-xs opacity-70">сдано</div>
+                </div>
+                {module2Avg > 0 && (
+                  <div className="text-center">
+                    <div className="text-2xl md:text-3xl font-bold text-yellow-300">{module2Avg.toFixed(2)}</div>
+                    <div className="text-xs opacity-70">ср. балл</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Итоги семестра - большой блок */}
+        <motion.div
+          initial={{ y: 50, opacity: 0, scale: 0.95 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{ delay: 1.2, type: 'spring' }}
+          className="bg-gradient-to-br from-pink-500/30 to-purple-600/30 backdrop-blur-sm rounded-3xl p-6 md:p-8 border-2 border-white/20 mt-6"
+        >
+          <motion.div
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1.4 }}
+          >
+            <GraduationCap className="mx-auto w-12 h-12 mb-3" />
+            <div className="text-xl md:text-2xl font-semibold mb-4">Итоги семестра</div>
+          </motion.div>
+          
+          <div className="flex items-center justify-center gap-8 md:gap-12">
             <motion.div
-              initial={{ scale: 0, rotate: 10 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 1.5, type: 'spring', stiffness: 150 }}
-              className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 md:p-8 inline-block w-full md:w-auto md:min-w-[400px]"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.6, type: 'spring', stiffness: 200 }}
+              className="text-center"
             >
-              <p className="text-lg md:text-xl mb-2 md:mb-4">Средний балл</p>
-              <div className="flex items-center justify-center gap-3">
+              <motion.div
+                className="text-5xl md:text-7xl font-bold mb-2"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ delay: 2, duration: 0.5 }}
+              >
+                {finalPassed}
+              </motion.div>
+              <div className="text-sm md:text-base opacity-80">предметов<br/>сдано</div>
+            </motion.div>
+            
+            {finalAvg > 0 && (
+              <>
+                <div className="w-px h-16 bg-white/20" />
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 2, type: 'spring' }}
-                  className="text-6xl md:text-8xl"
+                  transition={{ delay: 1.8, type: 'spring', stiffness: 200 }}
+                  className="text-center"
                 >
-                  {averageGrade.toFixed(1)}
-                </motion.div>
-              </div>
-              
-              <div className="flex justify-center gap-2 mt-4">
-                {[...Array(5)].map((_, i) => (
                   <motion.div
-                    key={i}
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 2.3 + i * 0.1, type: 'spring' }}
+                    className="text-5xl md:text-7xl font-bold mb-2 text-yellow-300"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ delay: 2.2, duration: 0.5 }}
                   >
-                    <Star 
-                      fill={i < Math.round(averageGrade) ? 'white' : 'transparent'} 
-                      className={`${i < Math.round(averageGrade) ? 'opacity-100' : 'opacity-40'} w-6 h-6 md:w-8 md:h-8`}
-                    />
+                    {finalAvg.toFixed(2)}
                   </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.8 }}
-          className="text-2xl opacity-90"
-        >
-          {averageGrade >= 4.5 ? "Отличная работа! 🎓" : "Так держать! 💪"}
+                  <div className="text-sm md:text-base opacity-80">средний<br/>балл</div>
+                </motion.div>
+              </>
+            )}
+          </div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.4 }}
+            className="mt-6 text-lg md:text-xl"
+          >
+            {finalAvg >= 4.5 ? "Отличная работа! 🎓" : finalAvg >= 3.5 ? "Хороший результат! 💪" : "Так держать! 📚"}
+          </motion.div>
         </motion.div>
       </div>
     </StoryCard>

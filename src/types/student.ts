@@ -84,17 +84,41 @@ export interface MessagesData {
   total_teacher_dialogs: number;
 }
 
+export interface ModuleGrade {
+  mark: string; // "з", "н/з", "3", "4", "5"
+  title: string; // "зачтено", "не зачтено", "удовлетворительно", "хорошо", "отлично"
+  numericValue?: number; // Numeric value if applicable (3, 4, 5)
+  isPassed: boolean;
+  skips: number;
+}
+
 export interface ProgressSubject {
+  semester: number;
   name: string;
   controlType: string;
-  marks: number[]; // Numeric marks found (3, 4, 5)
-  isPassed: boolean; // Has 'z' or positive mark
+  isExam: boolean; // true if экзамен or дифференцированный зачет
+  module1: ModuleGrade;
+  module2: ModuleGrade;
+  finalMark: string;
+  finalTitle: string;
+  finalNumericValue?: number;
+  teacher: string;
 }
 
 export interface ProgressData {
   subjects: ProgressSubject[];
-  averageGrade: number;
-  totalPassed: number;
+  module1Stats: {
+    passedCount: number; // Предметов сдано (зачтено или есть оценка)
+    averageGrade: number; // Средний балл по предметам с оценкой
+  };
+  module2Stats: {
+    passedCount: number; // Предметов сдано
+    averageGrade: number;
+  };
+  finalStats: {
+    passedCount: number; // Всего предметов сдано за семестр
+    averageGrade: number; // Средний балл за семестр
+  };
 }
 
 export interface StudentData {
