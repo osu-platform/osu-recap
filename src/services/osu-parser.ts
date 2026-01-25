@@ -120,7 +120,7 @@ export class OsuParser {
     const eduFormMatch = mainInfoText.match(/Форма финансирования обучения:\s*(.*?)(?=\n|$)/);
     const education_form = eduFormMatch ? eduFormMatch[1].trim() : '';
     
-    const curatorMatch = mainInfoText.match(/Куратор группы:\s*(.*?)(?=\n|$)/);
+    const curatorMatch = mainInfoText.match(/Куратор группы:\s*(.*?)(?=Староста группы:|$)/);
     const curator = curatorMatch ? curatorMatch[1].trim() : '';
     
     const headmanMatch = mainInfoText.match(/Староста группы:\s*(.*?)(?=\n|$)/);
