@@ -55,7 +55,7 @@ export function LoadingScreen() {
         
         const studentData: StudentData = {
           student: studentProfile,
-          period: { from: "2025-09-01", to: "2025-12-31" },
+          period: { from: "2025-09-01", to: "2026-01-31" },
           scud: scudData, 
           attendance: attendanceData,
           statements: statementsData,

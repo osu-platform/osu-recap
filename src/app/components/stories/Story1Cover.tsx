@@ -21,9 +21,10 @@ export function Story1Cover() {
     
     // Determine season based on months present
     const months = new Set(studentData.scud.days.map(d => new Date(d.date).getMonth()));
-    // 0-5 (Jan-Jun) -> Spring, 8-11 (Sep-Dec) -> Autumn
-    const isSpring = Array.from(months).some(m => m >= 0 && m <= 6);
-    const season = isSpring ? 'Весенний' : 'Осенний';
+    // Осенний: Sep(8), Oct(9), Nov(10), Dec(11), Jan(0)
+    // Весенний: Feb(1), Mar(2), Apr(3), May(4), Jun(5)
+    const isAutumn = Array.from(months).some(m => m === 0 || m >= 8);
+    const season = isAutumn ? 'Осенний' : 'Весенний';
     
     return { year, season };
   }, [studentData]);

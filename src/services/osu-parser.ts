@@ -140,7 +140,7 @@ export class OsuParser {
     };
   }
 
-  async fetchAttendance(dateFrom: string = '01.09.2025', dateTo: string = '31.12.2025'): Promise<string> {
+  async fetchAttendance(dateFrom: string = '01.09.2025', dateTo: string = '31.01.2026'): Promise<string> {
     const body = new URLSearchParams();
     body.append('action', 'setattendanceparams');
     body.append('attendance_date_from', dateFrom);
@@ -251,7 +251,7 @@ export class OsuParser {
     return { days };
   }
 
-  async fetchScud(dateFrom: string = '01.09.2025', dateTo: string = '31.12.2025'): Promise<string> {
+  async fetchScud(dateFrom: string = '01.09.2025', dateTo: string = '31.01.2026'): Promise<string> {
     const body = new URLSearchParams();
     body.append('action', 'setvisitsparams');
     body.append('visits_passdate_from', dateFrom);
