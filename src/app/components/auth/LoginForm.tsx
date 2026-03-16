@@ -1,42 +1,48 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { useAppStore, useAuthStore } from '@/store/appStore';
-import { osuParser } from '@/services/osu-parser';
-import { Loader2 } from 'lucide-react';
+import { useState } from "react";
+import { motion } from "motion/react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useAppStore, useAuthStore } from "@/store/appStore";
+import { osuParser } from "@/services/osu-parser";
+import { Loader2 } from "lucide-react";
 
 export function LoginForm() {
   const { setStage, setLoadingMessage } = useAppStore();
   const { setCredentials } = useAuthStore();
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [step, setStep] = useState<'login' | 'password'>('login');
-  const [error, setError] = useState('');
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [step, setStep] = useState<"login" | "password">("login");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (step === 'login') {
-      if (login.trim()) setStep('password');
+    if (step === "login") {
+      if (login.trim()) setStep("password");
       return;
     }
 
     if (!password.trim()) return;
 
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       const success = await osuParser.login(login, password);
       if (success) {
         setCredentials(login, password);
-        setStage('scraping');
+        const today = new Date();
+        const isAfterFeb8 = today.getMonth() > 1 || (today.getMonth() === 1 && today.getDate() >= 8);
+        if (isAfterFeb8) {
+          setStage("semester-select");
+        } else {
+          setStage("scraping");
+        }
       } else {
-        setError('Неверный логин или пароль');
+        setError("Неверный логин или пароль");
       }
     } catch (err) {
-      setError('Ошибка соединения с сервером');
+      setError("Ошибка соединения с сервером");
     } finally {
       setIsLoading(false);
     }
@@ -52,15 +58,17 @@ export function LoginForm() {
       >
         <div className="space-y-2">
           <h2 className="text-xl md:text-3xl font-light">
-            {step === 'login' ? 'Ваш логин от ЛК ОГУ' : 'Теперь пароль'}
+            {step === "login" ? "Ваш логин от ЛК ОГУ" : "Теперь пароль"}
           </h2>
           <p className="text-sm md:text-base text-gray-500">
-            {step === 'login' ? 'Обычно это электронная почта' : 'Тот же, что вы используете для входа на сайт'}
+            {step === "login"
+              ? "Обычно это электронная почта"
+              : "Тот же, что вы используете для входа на сайт"}
           </p>
         </div>
 
         <div className="space-y-4">
-          {step === 'login' ? (
+          {step === "login" ? (
             <Input
               autoFocus
               type="text"
@@ -79,33 +87,35 @@ export function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
             />
           )}
-          
+
           {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
 
-        <Button 
-          type="submit" 
-          size="lg" 
+        <Button
+          type="submit"
+          size="lg"
           className="w-full py-4 md:py-6 text-base md:text-lg rounded-full"
-          disabled={(step === 'login' ? !login : !password) || isLoading}
+          disabled={(step === "login" ? !login : !password) || isLoading}
         >
           {isLoading ? (
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             >
               <Loader2 className="w-5 h-5 md:w-6 md:h-6" />
             </motion.div>
+          ) : step === "login" ? (
+            "Далее"
           ) : (
-            step === 'login' ? 'Далее' : 'Войти'
+            "Войти"
           )}
         </Button>
-        
-        {step === 'password' && (
-          <button 
+
+        {step === "password" && (
+          <button
             type="button"
             className="text-sm text-gray-500 hover:text-white transition-colors"
-            onClick={() => setStep('login')}
+            onClick={() => setStep("login")}
           >
             Назад к логину
           </button>

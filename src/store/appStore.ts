@@ -1,8 +1,15 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { StudentData } from '../types/student';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { StudentData } from "../types/student";
 
-export type AppStage = 'intro' | 'security' | 'login' | 'scraping' | 'stories';
+export type AppStage =
+  | "intro"
+  | "security"
+  | "login"
+  | "semester-select"
+  | "scraping"
+  | "stories";
+export type SemesterOption = "autumn" | "spring";
 
 interface AuthState {
   credentials: { login: string; pass: string } | null;
@@ -18,18 +25,20 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ credentials: null }),
     }),
     {
-      name: 'osu-recap-auth',
-    }
-  )
+      name: "osu-recap-auth",
+    },
+  ),
 );
 
 interface AppState {
   stage: AppStage;
+  semester: SemesterOption;
   loadingMessage: string;
   studentData: StudentData | null;
   currentStory: number;
-  
+
   setStage: (stage: AppStage) => void;
+  setSemester: (semester: SemesterOption) => void;
   setLoadingMessage: (message: string) => void;
   setStudentData: (data: StudentData) => void;
   setCurrentStory: (index: number) => void;
@@ -39,30 +48,39 @@ interface AppState {
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      stage: 'intro',
-      loadingMessage: '',
+      stage: "intro",
+      semester: "autumn",
+      loadingMessage: "",
       studentData: null,
       currentStory: 0,
 
       setStage: (stage) => set({ stage }),
+      setSemester: (semester) => set({ semester }),
       setLoadingMessage: (message) => set({ loadingMessage: message }),
       setStudentData: (data) => set({ studentData: data }),
       setCurrentStory: (index) => set({ currentStory: index }),
-      reset: () => set({ stage: 'intro', loadingMessage: '', studentData: null, currentStory: 0 }),
+      reset: () =>
+        set({
+          stage: "intro",
+          semester: "autumn",
+          loadingMessage: "",
+          studentData: null,
+          currentStory: 0,
+        }),
     }),
     {
-      name: 'osu-recap-storage',
-      partialize: (state) => ({ 
+      name: "osu-recap-storage",
+      partialize: (state) => ({
         // Only persist stage if it's 'stories' (though without data it might be useless)
         // Actually, user said "don't save anything except login/pass".
         // So we shouldn't persist studentData.
         // We can persist stage if we want, but if data is gone, we must go back to loading.
         // So let's NOT persist studentData.
-        // And if we don't persist data, we shouldn't persist 'stories' stage either, 
+        // And if we don't persist data, we shouldn't persist 'stories' stage either,
         // because we can't show stories without data.
         // So effectively, we persist NOTHING here? Or maybe just UI preferences if we had them.
         // For now, let's return an empty object or just remove persistence for these fields.
       }),
-    }
-  )
+    },
+  ),
 );

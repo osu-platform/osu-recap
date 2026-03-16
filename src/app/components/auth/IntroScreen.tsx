@@ -1,7 +1,7 @@
-import { motion } from 'motion/react';
-import { Button } from '../ui/button';
-import { ArrowRight } from 'lucide-react';
-import { useAppStore, useAuthStore } from '@/store/appStore';
+import { motion } from "motion/react";
+import { Button } from "../ui/button";
+import { ArrowRight } from "lucide-react";
+import { useAppStore, useAuthStore } from "@/store/appStore";
 
 export function IntroScreen() {
   const { setStage } = useAppStore();
@@ -9,9 +9,16 @@ export function IntroScreen() {
 
   const handleStart = () => {
     if (credentials) {
-      setStage('scraping'); // Skip login if we have credentials
+      const today = new Date();
+      // If it's on or after February 8th, show semester select
+      const isAfterFeb8 = today.getMonth() > 1 || (today.getMonth() === 1 && today.getDate() >= 8);
+      if (isAfterFeb8) {
+        setStage("semester-select");
+      } else {
+        setStage("scraping");
+      }
     } else {
-      setStage('security');
+      setStage("security");
     }
   };
 
@@ -27,21 +34,22 @@ export function IntroScreen() {
           ОГУ Recap
         </h1>
         <p className="text-lg md:text-xl text-gray-400">
-          Твой персональный итог осеннего семестра 2025.
-          Узнай, сколько времени ты провел в университете, кто твой любимый турникет и многое другое.
+          Твой персональный итог прошедшего семестра. Узнай, сколько времени ты
+          провел в университете, кто твой любимый турникет и многое другое.
         </p>
-        
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="text-base md:text-lg px-6 py-4 md:px-8 md:py-6 rounded-full bg-white text-black hover:bg-gray-200 transition-colors"
             onClick={handleStart}
           >
-            {credentials ? 'Продолжить' : 'Начать'} <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+            {credentials ? "Продолжить" : "Начать"}{" "}
+            <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
           </Button>
         </motion.div>
       </motion.div>

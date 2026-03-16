@@ -1,33 +1,43 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'motion/react';
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
-import { useAppStore } from '@/store/appStore';
-import { IntroScreen } from './components/auth/IntroScreen';
-import { SecurityWarning } from './components/auth/SecurityWarning';
-import { LoginForm } from './components/auth/LoginForm';
-import { LoadingScreen } from './components/auth/LoadingScreen';
-import { NavigationHints } from './components/NavigationHints';
-import { Story1Cover } from './components/stories/Story1Cover';
-import { Story0FirstDay } from './components/stories/Story0FirstDay';
-import { Story2TotalTime } from './components/stories/Story2TotalTime';
-import { Story3LongestDay } from './components/stories/Story3LongestDay';
-import { Story3_5EarliestMorning } from './components/stories/Story3_5EarliestMorning';
-import { Story4ShortestDay } from './components/stories/Story4ShortestDay';
-import { Story5MainBuilding } from './components/stories/Story5MainBuilding';
-import { Story6BuildingRating } from './components/stories/Story6BuildingRating';
-import { Story7FavoriteTurnstile } from './components/stories/Story7FavoriteTurnstile';
-import { Story7_5TurnstileJourney } from './components/stories/Story7_5TurnstileJourney';
-import { Story8Attendance } from './components/stories/Story8Attendance';
-import { Story9PerfectAttendance } from './components/stories/Story9PerfectAttendance';
-import { Story10Tardiness } from './components/stories/Story10Tardiness';
-import { Story11FavoriteDay } from './components/stories/Story11FavoriteDay';
-import { Story12MorningOrEvening } from './components/stories/Story12MorningOrEvening';
-import { Story13DigitalActivity } from './components/stories/Story13DigitalActivity';
-import { Story13_5Stadium, getSportStats } from './components/stories/Story13_5Stadium';
-import { Story14Moodle } from './components/stories/Story14Moodle';
-import { Story14_5YourTeam } from './components/stories/Story14_5YourTeam';
-import { Story15Final } from './components/stories/Story15Final';
-import { StudentData } from '@/types/student';
+import { useState, useEffect, useRef, useMemo } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+  PanInfo,
+} from "motion/react";
+import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import { useAppStore } from "@/store/appStore";
+import { IntroScreen } from "./components/auth/IntroScreen";
+import { SecurityWarning } from "./components/auth/SecurityWarning";
+import { LoginForm } from "./components/auth/LoginForm";
+import { SemesterSelectScreen } from "./components/auth/SemesterSelectScreen";
+import { LoadingScreen } from "./components/auth/LoadingScreen";
+import { NavigationHints } from "./components/NavigationHints";
+import { Story1Cover } from "./components/stories/Story1Cover";
+import { Story0FirstDay } from "./components/stories/Story0FirstDay";
+import { Story2TotalTime } from "./components/stories/Story2TotalTime";
+import { Story3LongestDay } from "./components/stories/Story3LongestDay";
+import { Story3_5EarliestMorning } from "./components/stories/Story3_5EarliestMorning";
+import { Story4ShortestDay } from "./components/stories/Story4ShortestDay";
+import { Story5MainBuilding } from "./components/stories/Story5MainBuilding";
+import { Story6BuildingRating } from "./components/stories/Story6BuildingRating";
+import { Story7FavoriteTurnstile } from "./components/stories/Story7FavoriteTurnstile";
+import { Story7_5TurnstileJourney } from "./components/stories/Story7_5TurnstileJourney";
+import { Story8Attendance } from "./components/stories/Story8Attendance";
+import { Story9PerfectAttendance } from "./components/stories/Story9PerfectAttendance";
+import { Story10Tardiness } from "./components/stories/Story10Tardiness";
+import { Story11FavoriteDay } from "./components/stories/Story11FavoriteDay";
+import { Story12MorningOrEvening } from "./components/stories/Story12MorningOrEvening";
+import { Story13DigitalActivity } from "./components/stories/Story13DigitalActivity";
+import {
+  Story13_5Stadium,
+  getSportStats,
+} from "./components/stories/Story13_5Stadium";
+import { Story14Moodle } from "./components/stories/Story14Moodle";
+import { Story14_5YourTeam } from "./components/stories/Story14_5YourTeam";
+import { Story15Final } from "./components/stories/Story15Final";
+import { StudentData } from "@/types/student";
 
 const STORY_DURATION = 8000; // 8 seconds per story
 
@@ -40,77 +50,118 @@ type StoryConfig = {
 
 const allStories: StoryConfig[] = [
   { id: 1, component: Story1Cover, duration: 6000 },
-  { 
-    id: 2, 
-    component: Story0FirstDay, 
-    duration: 8000, 
-    condition: (d) => !!d?.scud?.days?.some(day => day.total_time_seconds > 0) 
-  },
-  { id: 3, component: Story2TotalTime, duration: 8000, condition: (d) => !!d?.scud?.days?.length },
-  { 
-    id: 4, 
-    component: Story3LongestDay, 
-    duration: 7000, 
-    condition: (d) => !!d?.scud?.days?.some(day => day.total_time_seconds > 0) 
-  },
-  { 
-    id: 5, 
-    component: Story3_5EarliestMorning, 
-    duration: 8000, 
-    condition: (d) => !!d?.scud?.days?.some(day => day.total_time_seconds > 0) 
-  },
-  { 
-    id: 6, 
-    component: Story4ShortestDay, 
-    duration: 7000, 
-    condition: (d) => !!d?.scud?.days?.some(day => day.total_time_seconds > 0) 
-  },
-  { id: 7, component: Story5MainBuilding, duration: 7000, condition: (d) => !!d?.scud?.days?.length },
-  { id: 8, component: Story6BuildingRating, duration: 8000, condition: (d) => !!d?.scud?.days?.length },
-  { id: 9, component: Story7FavoriteTurnstile, duration: 8000, condition: (d) => !!d?.scud?.days?.length },
-  { id: 10, component: Story7_5TurnstileJourney, duration: 10000, condition: (d) => !!d?.scud?.days?.length },
-  { 
-    id: 11, 
-    component: Story8Attendance, 
+  {
+    id: 2,
+    component: Story0FirstDay,
     duration: 8000,
-    condition: (d) => !!d?.attendance?.days?.some(day => day.classes.length > 0)
+    condition: (d) =>
+      !!d?.scud?.days?.some((day) => day.total_time_seconds > 0),
   },
-  { 
-    id: 12, 
-    component: Story9PerfectAttendance, 
+  {
+    id: 3,
+    component: Story2TotalTime,
     duration: 8000,
-    condition: (d) => !!d?.attendance?.days?.some(day => day.classes.length > 0)
+    condition: (d) => !!d?.scud?.days?.length,
   },
-  { 
-    id: 14, 
-    component: Story10Tardiness, 
+  {
+    id: 4,
+    component: Story3LongestDay,
+    duration: 7000,
+    condition: (d) =>
+      !!d?.scud?.days?.some((day) => day.total_time_seconds > 0),
+  },
+  {
+    id: 5,
+    component: Story3_5EarliestMorning,
+    duration: 8000,
+    condition: (d) =>
+      !!d?.scud?.days?.some((day) => day.total_time_seconds > 0),
+  },
+  {
+    id: 6,
+    component: Story4ShortestDay,
+    duration: 7000,
+    condition: (d) =>
+      !!d?.scud?.days?.some((day) => day.total_time_seconds > 0),
+  },
+  {
+    id: 7,
+    component: Story5MainBuilding,
+    duration: 7000,
+    condition: (d) => !!d?.scud?.days?.length,
+  },
+  {
+    id: 8,
+    component: Story6BuildingRating,
+    duration: 8000,
+    condition: (d) => !!d?.scud?.days?.length,
+  },
+  {
+    id: 9,
+    component: Story7FavoriteTurnstile,
+    duration: 8000,
+    condition: (d) => !!d?.scud?.days?.length,
+  },
+  {
+    id: 10,
+    component: Story7_5TurnstileJourney,
+    duration: 10000,
+    condition: (d) => !!d?.scud?.days?.length,
+  },
+  {
+    id: 11,
+    component: Story8Attendance,
+    duration: 8000,
+    condition: (d) =>
+      !!d?.attendance?.days?.some((day) => day.classes.length > 0),
+  },
+  {
+    id: 12,
+    component: Story9PerfectAttendance,
+    duration: 8000,
+    condition: (d) =>
+      !!d?.attendance?.days?.some((day) => day.classes.length > 0),
+  },
+  {
+    id: 14,
+    component: Story10Tardiness,
     duration: 9000,
-    condition: (d) => !!d?.attendance?.days?.some(day => day.classes.length > 0)
+    condition: (d) =>
+      !!d?.attendance?.days?.some((day) => day.classes.length > 0),
   },
   { id: 15, component: Story11FavoriteDay, duration: 8000 },
   { id: 16, component: Story12MorningOrEvening, duration: 8000 },
   { id: 17, component: Story13DigitalActivity, duration: 8000 },
-  { 
-    id: 18, 
-    component: Story13_5Stadium, 
+  {
+    id: 18,
+    component: Story13_5Stadium,
     duration: 8000,
     condition: (d) => {
       const stats = getSportStats(d);
       return !!stats && stats.percentage > 1.1;
-    }
+    },
   },
   { id: 19, component: Story14Moodle, duration: 8000 },
-  { 
-    id: 20, 
-    component: Story14_5YourTeam, 
+  {
+    id: 20,
+    component: Story14_5YourTeam,
     duration: 10000,
-    condition: (d) => !!(d?.student?.headman && d?.student?.curator && d?.student?.group)
+    condition: (d) =>
+      !!(d?.student?.headman && d?.student?.curator && d?.student?.group),
   },
   { id: 21, component: Story15Final, duration: 12000 },
 ];
 
 export default function App() {
-  const { stage, credentials, studentData, currentStory, setStage, setCredentials, setCurrentStory } = useAppStore();
+  const {
+    stage,
+    credentials,
+    studentData,
+    currentStory,
+    setStage,
+    setCredentials,
+    setCurrentStory,
+  } = useAppStore();
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -118,14 +169,22 @@ export default function App() {
   const elapsedRef = useRef<number>(0);
 
   const stories = useMemo(() => {
-    return allStories.filter(story => !story.condition || story.condition(studentData));
+    return allStories.filter(
+      (story) => !story.condition || story.condition(studentData),
+    );
   }, [studentData]);
 
   // Check for saved credentials on mount
   useEffect(() => {
-    if (stage === 'intro' && credentials) {
+    if (stage === "intro" && credentials) {
       // Auto-login if credentials exist
-      setStage('scraping');
+      const today = new Date();
+      const isAfterFeb8 = today.getMonth() > 1 || (today.getMonth() === 1 && today.getDate() >= 8);
+      if (isAfterFeb8) {
+        setStage("semester-select");
+      } else {
+        setStage("scraping");
+      }
     }
   }, [stage, credentials, setStage]);
 
@@ -156,7 +215,7 @@ export default function App() {
 
   // Auto-play functionality
   useEffect(() => {
-    if (stage !== 'stories') return;
+    if (stage !== "stories") return;
 
     if (isPaused) {
       if (timerRef.current) {
@@ -196,10 +255,10 @@ export default function App() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         handlePrevious();
-      } else if (e.key === 'ArrowRight' || e.key === ' ') {
-        if (e.key === ' ') {
+      } else if (e.key === "ArrowRight" || e.key === " ") {
+        if (e.key === " ") {
           e.preventDefault();
           togglePause();
         } else {
@@ -208,11 +267,14 @@ export default function App() {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentStory, isPaused]);
 
-  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
     const threshold = 50;
     if (info.offset.x > threshold) {
       handlePrevious();
@@ -221,10 +283,10 @@ export default function App() {
     }
   };
 
-  const handleStoryClick = (side: 'left' | 'center' | 'right') => {
-    if (side === 'left') {
+  const handleStoryClick = (side: "left" | "center" | "right") => {
+    if (side === "left") {
       handlePrevious();
-    } else if (side === 'center') {
+    } else if (side === "center") {
       togglePause();
     } else {
       handleNext();
@@ -233,10 +295,11 @@ export default function App() {
 
   const CurrentStoryComponent = stories[currentStory].component;
 
-  if (stage === 'intro') return <IntroScreen />;
-  if (stage === 'security') return <SecurityWarning />;
-  if (stage === 'login') return <LoginForm />;
-  if (stage === 'scraping') return <LoadingScreen />;
+  if (stage === "intro") return <IntroScreen />;
+  if (stage === "security") return <SecurityWarning />;
+  if (stage === "login") return <LoginForm />;
+  if (stage === "semester-select") return <SemesterSelectScreen />;
+  if (stage === "scraping") return <LoadingScreen />;
 
   return (
     <div className="w-full h-screen bg-gray-900 flex items-center justify-center overflow-hidden">
@@ -253,12 +316,12 @@ export default function App() {
                 animate={{
                   width:
                     index < currentStory
-                      ? '100%'
+                      ? "100%"
                       : index === currentStory
-                      ? `${progress}%`
-                      : '0%',
+                        ? `${progress}%`
+                        : "0%",
                 }}
-                transition={{ duration: 0.05, ease: 'linear' }}
+                transition={{ duration: 0.05, ease: "linear" }}
                 className="h-full bg-white rounded-full"
               />
             </div>
@@ -305,30 +368,32 @@ export default function App() {
         </motion.div>
 
         {/* Navigation areas (3-zone tap like Instagram) */}
-        <div className={`absolute inset-0 z-40 flex ${currentStory === stories.length - 1 ? 'pointer-events-none' : ''}`}>
+        <div
+          className={`absolute inset-0 z-40 flex ${currentStory === stories.length - 1 ? "pointer-events-none" : ""}`}
+        >
           {/* Left zone - Previous */}
           <button
-            onClick={() => handleStoryClick('left')}
+            onClick={() => handleStoryClick("left")}
             disabled={currentStory === 0}
             className={`flex-[3] cursor-pointer ${
-              currentStory === 0 ? 'cursor-default' : ''
+              currentStory === 0 ? "cursor-default" : ""
             }`}
             aria-label="Previous story"
           />
 
           {/* Center zone - Pause/Play */}
           <button
-            onClick={() => handleStoryClick('center')}
+            onClick={() => handleStoryClick("center")}
             className="flex-[4] cursor-pointer"
             aria-label="Pause/Play story"
           />
 
           {/* Right zone - Next */}
           <button
-            onClick={() => handleStoryClick('right')}
+            onClick={() => handleStoryClick("right")}
             disabled={currentStory === stories.length - 1}
             className={`flex-[3] cursor-pointer ${
-              currentStory === stories.length - 1 ? 'cursor-default' : ''
+              currentStory === stories.length - 1 ? "cursor-default" : ""
             }`}
             aria-label="Next story"
           />
